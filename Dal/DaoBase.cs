@@ -13,13 +13,13 @@ using Microsoft.Framework.OptionsModel;
 namespace YHCSheng.Dal
 {
     public class DaoBase<T> : IDao<T> where T : class {
-        public ApplicationDbContext context = new ApplicationDbContext();
+        private readonly ApplicationDbContext _context = new ApplicationDbContext();
 
         public T Update(T entity) {
-            var p = context.Set<T>();
+            var p = _context.Set<T>();
             p.Attach(entity);
-            context.Entry<T>(entity).State = EntityState.Modified;
-            context.SaveChanges();
+            _context.Entry<T>(entity).State = EntityState.Modified;
+            _context.SaveChanges();
             return entity;
         }
 
@@ -31,46 +31,43 @@ namespace YHCSheng.Dal
             var parameter = Expression.Parameter(typeof(T), "p");
             var body = Expression.Equal(Expression.Property(parameter, key), Expression.Constant(value));
             var expression = Expression.Lambda<Func<T, bool>>(body, parameter);
-            return context.Set<T>().Where(expression).FirstOrDefault();
+            return _context.Set<T>().Where(expression).FirstOrDefault();
         }
 
         public T Insert(T entity) {
-            context.Set<T>().Add(entity);
-            context.SaveChanges();
+            _context.Set<T>().Add(entity);
+            _context.SaveChanges();
             return entity;
         }
 
         public void Delete(T entity) {
-            context.Entry<T>(entity).State = EntityState.Deleted;
-            context.SaveChanges();
+            _context.Entry<T>(entity).State = EntityState.Deleted;
+            _context.SaveChanges();
         }
 
         public List<T> FindAll() {
-            return context.Set<T>().ToList();
+            return _context.Set<T>().ToList();
         }
 
         public List<T> Find(Dictionary<string, object> conditions) {
             if(conditions == null || conditions.Count == 0) {
-                return context.Set<T>().ToList();
+                return _context.Set<T>().ToList();
             }
 
             Expression p = null;
             var parameter = Expression.Parameter(typeof(T), "x");
 
-            foreach(var each in conditions) {
+            foreach(var each in conditions)
+            {
                 var body = Expression.Equal(Expression.Property(parameter, each.Key), Expression.Constant(each.Value));
-                if(p == null) {
-                    p = body;
-                } else {
-                    p = p.AndAlso(body);
-                }
+                p = p == null ? body : p.AndAlso(body);
             }
 
-            return context.Set<T>().Where(Expression.Lambda<Func<T, bool>>(p, parameter)).ToList();
+            return _context.Set<T>().Where(Expression.Lambda<Func<T, bool>>(p, parameter)).ToList();
         }
 
         public void Dispose() {
-            this.context.Dispose();
+            this._context.Dispose();
         }
     }
 }

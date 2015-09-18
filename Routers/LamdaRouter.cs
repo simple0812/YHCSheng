@@ -122,9 +122,7 @@ namespace YHCSheng.Routers {
     }
 
     public static class Param<TValue> {
-        public static TValue Any {
-            get { return default(TValue); }
-        }
+        public static TValue Any => default(TValue);
     }
 
 }
