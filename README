@@ -1,0 +1,10 @@
+一、启动
+1.dnu restore
+2.dnx . ef migration add init
+3.dnx . ef migration apply
+4.dnu publish
+5.dnx . web 
+
+二、坑
+1.执行dnu restore命令的时候，要确保wwwroot文件夹存在
+2.ApplicationDbContext必须要有命名空间

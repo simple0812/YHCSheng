@@ -1,0 +1,10 @@
+{
+  "AppSettings": {
+    "SiteTitle": "YHCSheng"
+  },
+  "Data": {
+    "DefaultConnection": {
+      "ConnectionString": "server=.;uid=sa;pwd=123;database=YHCSheng;"
+    }
+  }
+}
