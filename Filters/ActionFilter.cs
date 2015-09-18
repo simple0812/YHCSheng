@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNet.Mvc;
 
 namespace YHCSheng.Filters {

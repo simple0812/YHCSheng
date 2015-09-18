@@ -1,12 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Data;
-using System.Reflection;
-using Newtonsoft.Json;
 
-namespace YHCSheng.Utils {
+namespace YHCSheng.Utils
+{
     public sealed class CustomJsonResult {
         public string Code {get;set;}
         public string Message {get;set;}

@@ -1,6 +1,5 @@
 using System;
 using Microsoft.AspNet.Mvc;
-using System.Diagnostics;
 
 namespace YHCSheng.Filters {
     public class ExceptionFilter : IExceptionFilter {

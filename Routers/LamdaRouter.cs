@@ -1,15 +1,13 @@
-using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.ApplicationModels;
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using System.Reflection;
 
-namespace YHCSheng.Routers {
+namespace YHCSheng.Routers
+{
     public class TypedRouteModel : AttributeRouteModel {
         public TypedRouteModel(string template) {
             Template = template;

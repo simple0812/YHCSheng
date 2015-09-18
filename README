@@ -7,4 +7,3 @@
 
 二、坑
 1.执行dnu restore命令的时候，要确保wwwroot文件夹存在
-2.ApplicationDbContext必须要有命名空间

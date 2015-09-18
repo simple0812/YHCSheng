@@ -1,14 +1,11 @@
-using System;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Collections.Generic;
 
 public static class ExpressionExtensions {
     public static Expression AndAlso(this Expression left, Expression right) {
         return Expression.AndAlso(left, right);
     }
     public static Expression Call(this Expression instance, string methodName, params Expression[] arguments) {
-        return Expression.Call(instance, instance.Type.GetMethod(methodName), arguments);
+        return Expression.Call(instance, instance.GetType().GetMethod(methodName), arguments);
     }
     public static Expression Property(this Expression expression, string propertyName) {
         return Expression.Property(expression, propertyName);

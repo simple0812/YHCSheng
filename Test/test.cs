@@ -1,13 +1,8 @@
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Mvc;
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.Practices.Unity;
-namespace YHCSheng.Test {
+namespace YHCSheng.Test
+{
     public class CustomerService : IMyService {
         public CustomerService(LoggingService myServiceInstance) {
             myServiceInstance.WriteToLog("SomeValue");

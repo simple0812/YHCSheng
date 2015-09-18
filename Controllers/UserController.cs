@@ -1,19 +1,15 @@
-using System;
-using System.Linq;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.DependencyInjection;
-using System.Diagnostics;
+using System;
 using System.Collections.Generic;
-
-using YHCSheng.Dal;
-using YHCSheng.Utils;
-using YHCSheng.Models;
-using YHCSheng.Test;
+using System.Linq;
 using YHCSheng.Bll;
+using YHCSheng.Models;
+using YHCSheng.Utils;
 
 
-namespace YHCSheng.Controllers {
-	public class UserController : Controller {
+namespace YHCSheng.Controllers
+{
+    public class UserController : Controller {
 
         public UserController() {
         }

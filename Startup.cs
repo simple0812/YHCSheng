@@ -1,33 +1,17 @@
+using Autofac;
 using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Mvc;
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Diagnostics;
-using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Routing;
-using Microsoft.Data.Entity;
-using Microsoft.Framework.Configuration;
-using Microsoft.Framework.Configuration.Json;
+using Microsoft.AspNet.Mvc;
 using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.Logging;
-using Microsoft.Framework.Logging.Console;
 using Microsoft.Framework.Runtime;
-
-using YHCSheng.Routers;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using YHCSheng.Dal;
 using YHCSheng.Filters;
+using YHCSheng.Routers;
 using YHCSheng.Test;
-
-using Autofac;
 
 
 public class Startup {

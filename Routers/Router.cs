@@ -1,17 +1,12 @@
 //路由
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Routing;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Mvc.ApplicationModels;
-
+using Microsoft.AspNet.Routing;
 using YHCSheng.Controllers;
 
-namespace YHCSheng.Routers {
-	public sealed class Router {
+namespace YHCSheng.Routers
+{
+    public sealed class Router {
 		public static readonly Router Instance = new Router(); 
 	    private Router() {}
 
