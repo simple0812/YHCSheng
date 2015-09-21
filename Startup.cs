@@ -56,10 +56,11 @@ public class Startup {
 }
 
 public class TimeRecorderMiddleware {
-    RequestDelegate _next;
+    readonly RequestDelegate _next;
 
-    public TimeRecorderMiddleware(RequestDelegate next) {
-        _next = next;
+    public TimeRecorderMiddleware(RequestDelegate next)
+    {
+        if (next != null) _next = next;
     }
 
     public async Task Invoke(HttpContext context) {
@@ -69,9 +70,8 @@ public class TimeRecorderMiddleware {
 
         await _next(context);
 
-        var newDiv = @"process time:{0} ms";
-        var text = string.Format(newDiv, sw.ElapsedMilliseconds);
-        Console.WriteLine(text);
+        var msg = @"process time:{0} ms";
+        Console.WriteLine(string.Format(msg, sw.ElapsedMilliseconds));
     }
 }
 

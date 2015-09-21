@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 
 namespace YHCSheng.Utils
 {
@@ -13,7 +14,31 @@ namespace YHCSheng.Utils
         public string GetSuccess(object result) {
             this.Code = "success";
             this.Message = "";
-            this.Result = JsonHelper.Instance.ConvertToDictionary(result );
+            this.Result = JsonHelper.Instance.ConvertToDictionary(result);
+
+            return JsonHelper.Instance.SerializeObject(this);
+        }
+
+        public string GetSuccess(string result) {
+            this.Code = "success";
+            this.Message = "";
+            this.Result = result;
+
+            return JsonHelper.Instance.SerializeObject(this);
+        }
+
+        public string GetSuccess(int result) {
+            this.Code = "success";
+            this.Message = "";
+            this.Result = result;
+
+            return JsonHelper.Instance.SerializeObject(this);
+        }
+
+        public string GetSuccess(bool result) {
+            this.Code = "success";
+            this.Message = "";
+            this.Result = result;
 
             return JsonHelper.Instance.SerializeObject(this);
 
@@ -49,9 +74,8 @@ namespace YHCSheng.Utils
         }
 
         public string PageSuccess(ICollection collection, int total = 0) {
-
             if(total == 0) total = collection.Count;
-            this.Code = "error";
+            this.Code = "success";
             this.Message = "";
             this.Result = new {
                 entities = JsonHelper.Instance.ConvertToDictionary(collection),

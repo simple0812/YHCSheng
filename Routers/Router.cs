@@ -1,6 +1,7 @@
 //路由
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
 using YHCSheng.Controllers;
 
@@ -24,6 +25,7 @@ namespace YHCSheng.Routers
             opt.Post("api/user", c => c.Action<UserController>(x => x.Add()));
             opt.Delete("api/user/{id}", c => c.Action<UserController>(x => x.Remove(Param<int>.Any)));
             opt.Put("api/user", c => c.Action<UserController>(x => x.Update()));
+            opt.Post("api/user/portrait", c => c.Action<UserController>(x => x.UploadPortrait(Param<IFormFileCollection>.Any)));
         }
 	}
 }

@@ -18,7 +18,6 @@ namespace YHCSheng.Utils {
             return JsonConvert.SerializeObject(ConvertToDictionary(obj)); 
         }
 
-
         public string SerializeObject(ICollection collection, bool convertFirstLetter = true) {
             if(collection == null) return "";
             if(!convertFirstLetter) return JsonConvert.SerializeObject(collection);

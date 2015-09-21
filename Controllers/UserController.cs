@@ -1,7 +1,10 @@
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using Microsoft.Net.Http.Headers;
 using YHCSheng.Bll;
 using YHCSheng.Models;
 using YHCSheng.Utils;
@@ -69,5 +72,35 @@ namespace YHCSheng.Controllers
 	    public IActionResult Index() {
 	        return View();
 	    }
+
+        public Object UploadPortrait(IList<IFormFile>  portraits) {
+            if (portraits.Count == 0) {
+                return CustomJsonResult.Instance.GetError("请选择需要上传的文件");
+            }
+            var fileName = "";
+
+            foreach (var file in portraits) {
+                fileName = ContentDispositionHeaderValue
+                    .Parse(file.ContentDisposition)
+                    .FileName.Trim('"');
+
+                var supportedTypes = new[] { "jpg", "jpeg", "png", "gif","bmp" };
+                var fileExt = Path.GetExtension(fileName).Substring(1);
+                if (!supportedTypes.Contains(fileExt)) {
+                    return CustomJsonResult.Instance.GetError("file type error");
+                }
+                
+                if (file.Length > 1024 * 1000 * 10) {
+                    return CustomJsonResult.Instance.GetError("file size error");
+                }
+
+                Random r = new Random();
+                fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + r.Next(10000) + "." + fileExt;
+                var filePath =Path.Combine(GlobalVariables.FilePath, fileName);
+                file.SaveAs(filePath);
+            }
+
+            return CustomJsonResult.Instance.GetSuccess(fileName);
+        }
 	}	
 }

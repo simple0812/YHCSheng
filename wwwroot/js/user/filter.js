@@ -1,17 +1,11 @@
-require.config({
-    paths: {
-        'moment': 'lib/moment'
-    }
-});
-
 define([
     'moment',
-    'lib/angular'
+    'angular'
 ], function() {
     var moduleFilter = angular.module('moduleFilter', []);
     moduleFilter.filter('dateFilter', function() {
         return function(input) {
-            return moment(parseInt(input) * 1000).format('YYYY-MM-DD HH:mm:ss')
+            return moment(parseInt(input) * 1000).format('YYYY-MM-DD HH:mm')
         }
     });
 

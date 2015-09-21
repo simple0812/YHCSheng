@@ -5,11 +5,74 @@
     var query_list = {};
 </script>
 
+<div class="modal  ng-scope" id="modalCreate" tabindex="-1" role="dialog"
+     aria-labelledby="createUserModalLabel" aria-hidden="true" ng-controller="editCtrl">
+    <div class="modal-dialog" style="margin-top: 80px;" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="createUserModalLabel">我要加班</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div  class="input-group col-xs-12 bottom-gap">
+                        <span class="input-group-addon addon-width-4 " style="width:95px; text-align:right;">姓名:</span>
+                        <input  id="txtName" readonly class="form-control validator ng-pristine ng-invalid ng-invalid-required"
+                                description="姓名" type="text" ng-model="model.name"/>
+                    </div>
+                    <div class="input-group col-xs-12 bottom-gap">
+                        <span class="input-group-addon addon-width-4 " style="width:95px; text-align:right;">昵称:</span>
+                        <input class="form-control validator ng-pristine ng-invalid ng-invalid-required" validator="htmlChar"
+                               id="txtNick" description="昵称" required="required" type="text" ng-model="model.nick"/>
+                    </div>
+
+                    <div class="input-group col-xs-12 bottom-gap">
+                        <span class="input-group-addon addon-width-4 " style="width:95px; text-align:right;">邮箱:</span>
+                        <input class="form-control validator ng-pristine ng-invalid ng-invalid-required" validator="htmlChar"
+                               id="txtEmail" description="邮箱" required="required" type="text" ng-model="model.email"/>
+                    </div>
+
+                    <div class="input-group col-xs-12 bottom-gap">
+                        <span class="input-group-addon addon-width-4 " style="width:95px; text-align:right;">密码:</span>
+                        <input class="form-control validator ng-pristine ng-invalid ng-invalid-required" validator="htmlChar"
+                               id="txtPass" description="密码" required="required" type="text" ng-model="model.password"/>
+                    </div>
+
+                    <div class="input-group col-xs-12 bottom-gap">
+                        <span class="input-group-addon addon-width-4 " style="width:95px; text-align:right;">确认密码:</span>
+                        <input class="form-control validator ng-pristine ng-invalid ng-invalid-required" validator="htmlChar"
+                               id="txtConfirm" description="确认密码" required="required" type="text" />
+                    </div>
+
+                    <div class="input-group col-xs-12 bottom-gap">
+                        <span class="input-group-addon addon-width-4 " style="width:95px; text-align:right;">头像:</span>
+                        <span class= 'btn btn-default fileinput-button form-control' style:'width:95px;'>
+                            <i class= 'glyphicon glyphicon-upload'></i>
+                            <span>上传文件</span>
+                            <input class= "validator" validator='specialChar' id='uploadInput' fileupload type= 'file' name='portraits'
+                                description='图片路径' required='' />
+                        </span>
+                
+                    </div>
+
+                    <div class="input-group col-xs-12">
+                        <img id="imgUpload" style="display:none; max-width:500px; max-height:500px;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary  col-xs-offset-6" id="btnSave" type="button"  ng-click="save()">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="wrap" style="position:fixed;left:0;right:0;top:0;bottom:50px;margin:auto;overflow:auto; z-index: 3">
     <div id="user" ng-controller="modelsCtrl" onselectstart="return false" class="ng-scope" style="margin-top: 50px;">
         <div class="well well-sm">
             <div class="container fixed-width">
-                <button type="button" class="btn btn-primary" id="btnCreate" ng-click="exportExcel(this, $event.target)">
+                <button type="button" class="btn btn-primary" id="btnCreate"  data-toggle="modal" data-target="#modalCreate" >
                     添加
                 </button>
                 <button type="button" class="btn btn-default" id="btnRemove" ng-click="exportExcel(this, $event.target)">

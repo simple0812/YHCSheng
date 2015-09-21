@@ -231,4 +231,12 @@ var common = (function($) {
 
 
 
+ if (typeof define === "function" && define.amd) {
+     define(['bootstrap', 'jquery'], function() {
+         return common;
+     });
+ }
+
+
+
 

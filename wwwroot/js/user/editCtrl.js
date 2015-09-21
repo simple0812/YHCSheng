@@ -1,5 +1,5 @@
 define([
-    'lib/angular'
+    'angular'
 ], function () {
     var moduleDetailCtrl =  angular.module('moduleDetailCtrl', []);
     moduleDetailCtrl.controller('editCtrl',['$scope', '$http', '$window', 'svc', editCtrl]);

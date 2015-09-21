@@ -1,8 +1,8 @@
 define([
-    'lib/angular',
-    'lib/extension',
-    'lib/underscore',
-    'lib/pager'
+    'angular',
+    'extension',
+    'underscore',
+    'pager'
 ], function () {
     var moduleListCtrl =  angular.module('moduleListCtrl', []);
     moduleListCtrl.controller('modelsCtrl',['$scope', '$window', 'svc', modelsCtrl]);
@@ -70,78 +70,12 @@ define([
             showList();
         };
 
-        function initCalendar(data, month) {
-            month = month? new Date(month) : new Date();
-            var options = {
-                height: 550,
-                width: 980,
-                navHeight: 30,
-                labelHeight: 25,
-                calendarStartDate: month,
-                firstDayOfWeek: 1,
-                onMonthChanging: function(dateIn) {
-                    query_list.month = moment(dateIn).format("YYYY-MM");
-                    showList();
-                    return true;
-                },
-                onEventLinkClick: function(event) {
-                    return true;
-                },
-                onEventBlockClick: function(event) {
-                    return true;
-                },
-                onEventBlockOver: function(event) {
-                    return true;
-                },
-                onEventBlockOut: function(event) {
-                    return true;
-                },
-                onDayLinkClick: function(date) {
-                    return false;
-                },
-                onDayCellClick: function(date) {
-                    return true;
-                },
-                navLinks: {
-                    enableToday: true,
-                    enableNextYear: true,
-                    enablePrevYear: true,
-                    p:'&lsaquo;&lsaquo; 上一月',
-                    n:'下一月 &rsaquo;&rsaquo;',
-                    t:'本月'
-                },
-                locale: {
-                    days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
-                    daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-                    daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
-                    months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-                    monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                    weekMin: 'wk'
-                }
-            };
-
-            $.jMonthCalendar.Initialize(options, data);
-
-        }
-
-        function dataAdapter(workOvertimes) {
-            return _.map(workOvertimes, function(item) {
-                return { "EventID": item.id,
-                    "Date": new Date(item.createdAt * 1000),
-                    "Title": item.remark,
-                    "URL": "#",
-                    "Description": item.remark,
-                    "CssClass": "overtime"
-                };
-            })
-        }
-
         function showList() {
-            $("#jMonthCalendar").hide();
             svc.retrieve()
               .done(function(json) {
-                  initCalendar(dataAdapter(json.result), query_list.month);
-                  $("#jMonthCalendar").show();
+                    $scope.models = json.result.entities || [];
+                    console.log(json.result);
+                    $('.userList').show();
               }).fail(function() {
                   console.log('数据获取失败');
               })

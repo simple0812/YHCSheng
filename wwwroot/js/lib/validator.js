@@ -164,7 +164,7 @@
  })($);
 
  if (typeof define === "function" && define.amd) {
-     define(['lib/common'], function() {
+     define(['common'], function() {
          return validator;
      });
  }
