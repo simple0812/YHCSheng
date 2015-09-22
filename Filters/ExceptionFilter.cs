@@ -8,7 +8,6 @@ namespace YHCSheng.Filters {
             string action = filterContext.RouteData.Values["action"] as string;
 
             Console.WriteLine(string.Format("{0}:{1}发生异常!{2}", controller,action, filterContext.Exception.Message));
-            //filterContext.ExceptionHandled = true;
         }
     }
 }
