@@ -5,9 +5,10 @@
     var query_list = {};
 </script>
 
-<div class="modal  ng-scope" id="modalCreate" tabindex="-1" role="dialog"
-     aria-labelledby="createUserModalLabel" aria-hidden="true" ng-controller="editCtrl">
-    <div class="modal-dialog" style="margin-top: 80px;" >
+
+<div class="modal ng-scope"  id="modalCreate" tabindex="-1" role="dialog"
+     aria-labelledby="createUserModalLabel" aria-hidden="true" modal-dialog>
+    <div class="modal-dialog" style="margin-top: 80px;"    >
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -49,8 +50,8 @@
                         <span class= 'btn btn-default fileinput-button form-control' style:'width:95px;'>
                             <i class= 'glyphicon glyphicon-upload'></i>
                             <span>上传文件</span>
-                            <input class= "validator" validator='specialChar' id='uploadInput' fileupload type= 'file' name='portraits'
-                                description='图片路径' required='' />
+                            <input class= "validator"  id='uploadInput' fileupload type= 'file' name='portraits'
+                                description='图片路径'  />
                         </span>
                 
                     </div>
@@ -68,61 +69,64 @@
     </div>
 </div>
 
-<div class="wrap" style="position:fixed;left:0;right:0;top:0;bottom:50px;margin:auto;overflow:auto; z-index: 3">
-    <div id="user" ng-controller="modelsCtrl" onselectstart="return false" class="ng-scope" style="margin-top: 50px;">
-        <div class="well well-sm">
-            <div class="container fixed-width">
-                <button type="button" class="btn btn-primary" id="btnCreate"  data-toggle="modal" data-target="#modalCreate" >
-                    添加
-                </button>
-                <button type="button" class="btn btn-default" id="btnRemove" ng-click="exportExcel(this, $event.target)">
-                    删除
-                </button>
-                <div class="col-xs-3 input-group pull-right searchPanel">
-                    <input type="text" class="form-control" id="searchInput" datetimepicker readonly placeholder="请选择时间">
-
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-default" id="searchBtn" ng-click="search($event.target)">搜索</button>
-                    </span>
-                </div>
-            </div>
-        </div>
+<div id="user" onselectstart="return false" class="ng-scope" style="margin-top: 50px;">
+    <div class="well well-sm">
         <div class="container fixed-width">
-            <h3 class="pageInfo">用户管理</h3>
-            <div class="panel panel-default">
-                <table class="table table-striped" style="table-layout:fixed;word-wrap:break-word;" id="tblUses">
-                    <thead class="thead-color">
-                    <tr>
-                        <th class="col-xs-2" style="cursor:pointer" ng-click="orderColumn='createdAt'; orderMode=!orderMode">
-                            编号
-                        </th>
-                        <th class="col-xs-2" style="cursor:pointer" ng-click="orderColumn='updatedAt'; orderMode=!orderMode">
-                            姓名
-                        </th>
-                        <th class="col-xs-3" style="cursor:pointer" ng-click="orderColumn='updatedAt'; orderMode=!orderMode">
-                            昵称
-                        </th>
-                        <th class="col-xs-3" style="cursor:pointer" ng-click="orderColumn='updatedAt'; orderMode=!orderMode">
-                            头像
-                        </th>
-                        <th class="col-xs-2">操作</th>
-                    </tr>
-                    </thead>
-                    <tbody class="userList" style="display:none">
-                    <tr ng-repeat="model in models">
+            <button type="button" class="btn btn-primary" id="btnCreate"  data-toggle="modal" data-target="#modalCreate" >
+                添加
+            </button>
+            <button type="button" class="btn btn-default" id="btnRemove" ng-click="exportExcel(this, $event.target)">
+                删除
+            </button>
+            <div class="col-xs-3 input-group pull-right searchPanel">
+                <input type="text" class="form-control" id="searchInput" datetimepicker readonly placeholder="请选择时间">
 
-                        <td class="col-xs-2" ng-bind="model.id"></td>
-                        <td class="col-xs-2" ng-bind="model.name"></td>
-                        <td class="col-xs-3" ng-bind="model.nick"></td>
-                        <td class="col-xs-3" ng-bind="model.portrait"></td>
-                        <td class="col-xs-2">
-                            <a href="javascript:void(0)" ng-click="navToDetail(this, $target.event)" >详情</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default" id="searchBtn" ng-click="search($event.target)">搜索</button>
+                </span>
             </div>
-            <div class="page_y" id="pager"></div>
         </div>
+    </div>
+    <div class="container fixed-width">
+        <h3 class="pageInfo">用户管理</h3>
+        <div class="panel panel-default">
+            <table class="table table-striped" style="table-layout:fixed;word-wrap:break-word;" id="tblUses">
+                <thead class="thead-color">
+                <tr>
+                    <th style='width:30px'>
+                        <input type='checkbox' class='checkbox' ng-model='selectAllStatus' ng-click="selectAllItems(this, $event.target)" />
+                    </th>
+                    <th class="col-xs-2" style="cursor:pointer" ng-click="orderColumn='createdAt'; orderMode=!orderMode">
+                        编号
+                    </th>
+                    <th class="col-xs-2" style="cursor:pointer" ng-click="orderColumn='updatedAt'; orderMode=!orderMode">
+                        姓名
+                    </th>
+                    <th class="col-xs-3" style="cursor:pointer" ng-click="orderColumn='updatedAt'; orderMode=!orderMode">
+                        昵称
+                    </th>
+                    <th class="col-xs-3" style="cursor:pointer" ng-click="orderColumn='updatedAt'; orderMode=!orderMode">
+                        头像
+                    </th>
+                    <th class="col-xs-2">操作</th>
+                </tr>
+                </thead>
+                <tbody class="userList" style="display:none">
+                <tr ng-repeat="model in models">
+                    <td style='width:30px'>
+                        <input type='checkbox' chk-item class ='checkbox' data-id='{{model.id}}' ng-model='model.selStatus'/>
+                    </td>
+                    <td class="col-xs-2" ng-bind="model.id"></td>
+                    <td class="col-xs-2" ng-bind="model.name"></td>
+                    <td class="col-xs-3" ng-bind="model.nick"></td>
+                    <td class="col-xs-3" ng-bind="model.portrait"></td>
+                    <td class="col-xs-2">
+                        <a href="javascript:void(0)" ng-click="navToDetail(this, $event.target)" >详情</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="page_y" id="pager"></div>
     </div>
 </div>

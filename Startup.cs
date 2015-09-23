@@ -58,8 +58,7 @@ public class Startup {
 public class TimeRecorderMiddleware {
     readonly RequestDelegate _next;
 
-    public TimeRecorderMiddleware(RequestDelegate next)
-    {
+    public TimeRecorderMiddleware(RequestDelegate next) {
         if (next != null) _next = next;
     }
 
@@ -70,8 +69,8 @@ public class TimeRecorderMiddleware {
 
         await _next(context);
 
-        var msg = @"process time:{0} ms";
-        Console.WriteLine(string.Format(msg, sw.ElapsedMilliseconds));
+        var msg = @"method:{1}, url:{0} ->   process time:{2} ms";
+        Console.WriteLine(string.Format(msg,context.Request.Path, context.Request.Method, sw.ElapsedMilliseconds));
     }
 }
 

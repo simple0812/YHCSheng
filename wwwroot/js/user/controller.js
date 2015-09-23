@@ -4,17 +4,65 @@ define([
     'underscore',
     'pager'
 ], function () {
-    var moduleListCtrl =  angular.module('moduleListCtrl', []);
-    moduleListCtrl.controller('modelsCtrl',['$scope', '$window', 'svc', modelsCtrl]);
+    var moduleListCtrl =  angular.module('moduleCtrl', []);
+    moduleListCtrl.controller('controller',['$scope', '$window', 'svc', controller]);
 
-    function modelsCtrl($scope, $window, svc) {
-        query_list.uid = common.getQueryString('uid');
-        showList();
+    function controller($scope, $window, svc) {
+         query_list.uid = common.getQueryString('uid');
+         showList();
         $scope.models = [];
+        $scope.model = {};
+        $scope.saveMode = 'create'; //弹出框保存model模式 : create , edit
+        $scope.selectAllStatus = false;
+        $scope.selectItems = [];
+
+        function initModel() {
+            $scope.model = {
+                id : '',
+                name : '',
+                nick : '',
+                email : '',
+                portrait : '',
+                status : 1,
+                createdAt : 0,
+                updatedAt : 0,
+                selStatus : false
+            };
+        }
 
         $scope.$on('$destroy', function() {
             console.log($scope.models.length + '..')
         });
+
+        $scope.$watch('selectItems', function (newValue, oldValue, scope) {
+            if(newValue == oldValue) return;
+            $scope.selectAllStatus = ($scope.models.length > 0 &&  $scope.selectItems.length === $scope.models.length) ? true : false;
+
+            _.each($scope.models, function(item) {
+                item.selStatus= $scope.selectItems.indexOf(item.id) > -1;
+            })
+
+        })
+
+        $scope.$on('selectItem', function(evt, args) {
+            if(!args) return;
+
+            if(args.val) {
+                $scope.selectItems.push(args.id);
+                $scope.selectItems = _.uniq($scope.selectItems);
+            } else {
+                $scope.selectItems = _.without($scope.selectItems, args.id)
+            }
+        });
+
+        $scope.selectAllItems = function(scope, obj) {
+            $scope.selectAllStatus = $(obj).prop('checked');
+            if($scope.selectAllStatus) {
+                $scope.selectItems = _.pluck($scope.models, 'id');
+            } else {
+                $scope.selectItems = [];
+            }
+        }
 
         $scope.remove = function(scope, obj) {
             if(confirm('确认删除项目吗？')) {
@@ -25,12 +73,6 @@ define([
                         common.popBy(obj, msg);
                     });
             }
-        };
-
-        $scope.navToEdit = function(scope, obj) {
-            var uid = scope.model.attributes.uid;
-            var url = (typeof uid == 'array') ? "/user/v/" + uid[0] : '/user/v/' + uid;
-            location.href = url;
         };
 
         $scope.removeModels = function(scope, obj) {
@@ -61,8 +103,7 @@ define([
         };
 
         $scope.showCreateModal = function() {
-            $('#btnSave').data('save-type', 'create');
-            $('#createUserModal').modal('show');
+            console.log("showCreateModal")
         };
 
         $scope.search = function(obj) {
@@ -74,7 +115,7 @@ define([
             svc.retrieve()
               .done(function(json) {
                     $scope.models = json.result.entities || [];
-                    console.log(json.result);
+                    // console.log(json.result);
                     $('.userList').show();
               }).fail(function() {
                   console.log('数据获取失败');

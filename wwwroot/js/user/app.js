@@ -6,9 +6,9 @@ require.config({
 });
 
 require(['main'], function() {
-    require(['validator','bootstrap', 'module/service', 'module/controller', 'module/filter','module/editCtrl', 'module/directive'], function() {
+    require(['validator','bootstrap', 'module/service', 'module/controller', 'module/filter','module/directive'], function() {
         validator.bind();
-        angular.module('myApp', ['moduleListCtrl', 'moduleDetailCtrl', 'moduleSvc', 'moduleFilter', 'moduleDirect']);
+        angular.module('myApp', ['moduleCtrl', 'moduleSvc', 'moduleFilter', 'moduleDirect']);
         angular.element(document).ready(function() {
             angular.bootstrap(document, ['myApp']);
         });

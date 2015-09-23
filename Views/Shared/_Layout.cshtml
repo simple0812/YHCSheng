@@ -21,7 +21,7 @@
 
 </head>
 <body >
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index: 4;">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="z-index: 4;" >
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="/" style="margin-top:-4px;">浴火重生</a>
@@ -59,7 +59,9 @@
         </script>
     </div>
 </div>
-@RenderBody()
+<div class="wrap" style="position:fixed;left:0;right:0;top:0;bottom:50px;margin:auto;overflow:auto; z-index: 3" ng-controller="controller">
+    @RenderBody()
+</div>
 <div class="navbar navbar-default  input-group-addon-format navbar-fixed-bottom" role="navigation" style="z-index: 2" >
     <div class="container fixed-width" style="line-height: 50px; vertical-align: middle;">
         <a class="center-block text-center" id="loginNav" href="#">©上海西示科技股份有限公司 2015</a>

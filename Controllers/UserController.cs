@@ -100,7 +100,7 @@ namespace YHCSheng.Controllers
                 file.SaveAs(filePath);
             }
 
-            return CustomJsonResult.Instance.GetSuccess(fileName);
+            return CustomJsonResult.Instance.GetSuccess(GlobalVariables.FileServer +  fileName);
         }
 	}	
 }

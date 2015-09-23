@@ -10,3 +10,4 @@ bin/*
 *.sln.*
 *.sln
 FilePath/*
+wwwroot/FilePath/*
