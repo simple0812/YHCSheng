@@ -18,9 +18,13 @@
 ********************beta5***************************
 
 ********************beta7***************************
+一、启动
 1.dnu restore
 2.dnx ef migration add init
 3.dnx ef migration apply
 4.dnu publish
 5.dnx web 
+
+二、坑
+namespace修改 beta5_beta7.png
 ********************beta7***************************

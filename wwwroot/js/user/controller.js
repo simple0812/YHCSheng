@@ -8,7 +8,6 @@ define([
     moduleListCtrl.controller('controller', ['$scope', '$window', 'svc', controller]);
 
     function controller($scope, $window, svc) {
-        query_list.uid = common.getQueryString('uid');
         showList();
         $scope.models = [];
         $scope.model = {};

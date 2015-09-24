@@ -13,7 +13,7 @@ namespace YHCSheng.Migrations
     {
         public override string Id
         {
-            get { return "20150924032442_init"; }
+            get { return "20150924033533_init"; }
         }
 
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

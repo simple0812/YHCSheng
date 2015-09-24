@@ -26,23 +26,11 @@ namespace YHCSheng.Controllers
 		}
 
         public string Add() {
-            
             var reader = new StreamReader(this.Request.Body);
             var txt = reader.ReadToEnd();
             var p = JsonConvert.DeserializeObject<User>(txt);
-            Console.WriteLine(p); 
-            //var xreader = new JsonTextReader(reader);
-            //JObject xObject = JObject.Load(xreader);
-            //Console.WriteLine(xObject["name"].ToString());
-            //Console.WriteLine(xObject["id"].ToString());
-            //Console.WriteLine(xObject.GetValue("age")== null);
-
-            User user = new User() {
-                Name = "zl",
-                Nick = "xx"
-            };
-
-            user = new UserService().Create(p);
+            var user = new UserService().Create(p);
+            
             return CustomJsonResult.Instance.GetSuccess(user);
         }
 
@@ -65,12 +53,11 @@ namespace YHCSheng.Controllers
         }
 
         public string Update() {
-            int id = int.TryParse(this.Request.Query.Get("id"), out id) ? id : 0;
-            string name = this.Request.Query.Get("name");
-            User user = new UserService().GetById(id);
+            var reader = new StreamReader(this.Request.Body);
+            var txt = reader.ReadToEnd();
+            var user = JsonConvert.DeserializeObject<User>(txt);
 
-            if(user != null) {
-                user.Name = name;
+            if(user != null && user.Id != null && user.Id > 0) {
                 new UserService().Update(user);
             }
 
