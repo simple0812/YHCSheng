@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using YHCSheng.Bll;
 using YHCSheng.Models;
 using YHCSheng.Utils;
@@ -24,13 +26,24 @@ namespace YHCSheng.Controllers
 		}
 
         public string Add() {
+            
+            var reader = new StreamReader(this.Request.Body);
+            var txt = reader.ReadToEnd();
+            var p = JsonConvert.DeserializeObject<User>(txt);
+            Console.WriteLine(p); 
+            //var xreader = new JsonTextReader(reader);
+            //JObject xObject = JObject.Load(xreader);
+            //Console.WriteLine(xObject["name"].ToString());
+            //Console.WriteLine(xObject["id"].ToString());
+            //Console.WriteLine(xObject.GetValue("age")== null);
+
             User user = new User() {
                 Name = "zl",
                 Nick = "xx"
             };
 
-            user = new UserService().Create(user);
-            return JsonHelper.Instance.SerializeObject(user);
+            user = new UserService().Create(p);
+            return CustomJsonResult.Instance.GetSuccess(user);
         }
 
         public Object List() {
@@ -61,7 +74,7 @@ namespace YHCSheng.Controllers
                 new UserService().Update(user);
             }
 
-            return JsonHelper.Instance.SerializeObject(user);
+            return CustomJsonResult.Instance.GetSuccess(user);
         }
 
         public string Remove(int id) {

@@ -11,3 +11,4 @@ bin/*
 *.sln
 FilePath/*
 wwwroot/FilePath/*
+project.lock.json

@@ -18,7 +18,7 @@
                 <div class="form-horizontal">
                     <div  class="input-group col-xs-12 bottom-gap">
                         <span class="input-group-addon addon-width-4 " style="width:95px; text-align:right;">姓名:</span>
-                        <input  id="txtName" readonly class="form-control validator ng-pristine ng-invalid ng-invalid-required"
+                        <input  id="txtName" class="form-control validator ng-pristine ng-invalid ng-invalid-required"
                                 description="姓名" type="text" ng-model="model.name"/>
                     </div>
                     <div class="input-group col-xs-12 bottom-gap">
@@ -57,13 +57,13 @@
                     </div>
 
                     <div class="input-group col-xs-12">
-                        <img id="imgUpload" style="display:none; max-width:500px; max-height:500px;">
+                        <img style="max-width:500px; max-height:500px;" ng-show='model.portrait' ng-src='{{model.portrait}}' />
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary  col-xs-offset-6" id="btnSave" type="button"  ng-click="save()">保存</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button class="btn btn-primary btnSave col-xs-offset-6" type="button" ng-click="save(this, $event.target)">保存</button>
+                <button type="button" class="btn btn-default btnClose" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>
@@ -72,10 +72,10 @@
 <div id="user" onselectstart="return false" class="ng-scope" style="margin-top: 50px;">
     <div class="well well-sm">
         <div class="container fixed-width">
-            <button type="button" class="btn btn-primary" id="btnCreate"  data-toggle="modal" data-target="#modalCreate" >
+            <button type="button" class="btn btn-primary" id="btnCreate"  data-toggle="modal" show-modal save-type="create" target-modal="#modalCreate">
                 添加
             </button>
-            <button type="button" class="btn btn-default" id="btnRemove" ng-click="exportExcel(this, $event.target)">
+            <button type="button" class="btn btn-default" id="btnRemove" ng-click="removeBatch(this, $event.target)">
                 删除
             </button>
             <div class="col-xs-3 input-group pull-right searchPanel">
@@ -119,9 +119,11 @@
                     <td class="col-xs-2" ng-bind="model.id"></td>
                     <td class="col-xs-2" ng-bind="model.name"></td>
                     <td class="col-xs-3" ng-bind="model.nick"></td>
-                    <td class="col-xs-3" ng-bind="model.portrait"></td>
+                    <td class="col-xs-3" >
+                        <img id="imgUpload" style="max-width:30px; max-height:30px;" ng-show='model.portrait' ng-src='{{model.portrait}}'>
+                    </td>
                     <td class="col-xs-2">
-                        <a href="javascript:void(0)" ng-click="navToDetail(this, $event.target)" >详情</a>
+                        <a href="javascript:void(0)" show-modal save-type="update" target-modal="#modalCreate" >详情</a>
                     </td>
                 </tr>
                 </tbody>

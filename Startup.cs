@@ -46,7 +46,7 @@ public class Startup {
             //options.Filters.Add(typeof(ActionFilter));
             //options.Filters.Add(typeof(ResultFilter));
             //options.Filters.Add(typeof(AuthorizationFilter));
-            //options.Filters.Add(typeof(ExceptionFilter));
+            options.Filters.Add(typeof(ExceptionFilter));
         });
 
         services.AddEntityFramework()

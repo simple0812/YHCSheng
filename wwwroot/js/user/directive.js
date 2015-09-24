@@ -8,8 +8,10 @@
 
 //$emit向父级发送事件 $broadcast向子级发送事件
 
+//@:引用 =:双向绑定 &:以wrapper function形式引用
+
 define([
-	'angular', 
+	'angular',
 	'common',
 	'datetimepicker',
 	'jquery.fileupload'
@@ -48,13 +50,14 @@ define([
 				transclude: false,
 				restrict: 'A',
 				scope: {},
-				controller: function ($scope, $element, $attrs) {
-					$scope.$parent.$watch('model.selStatus', function (newValue, oldValue, scope) {
-			            if(newValue == oldValue) return;
-
-			            $scope.$emit('selectItem', { id : $scope.$parent.model.id, val : newValue});
-
-			        })
+				controller: function($scope, $element, $attrs) {
+					$scope.$parent.$watch('model.selStatus', function(newValue, oldValue, scope) {
+						if (newValue == oldValue) return;
+						$scope.$emit('selectItem', {
+							id: $scope.$parent.model.id,
+							val: newValue
+						});
+					})
 				}
 			};
 		});
@@ -70,28 +73,23 @@ define([
 				scope: false,
 				link: function postLink(scope, iElement, iAttrs, ctrl) {
 					var url = '/api/user/portrait';
-		            $('#uploadInput').fileupload({
-		                url: url,
-		                dataType: 'json',
-		                add: function (e, data) {
-		                    $.each(data.files, function (index, file) {
-		                    	console.log(file);
-		                    });
-		                    data.submit();
-		                },
-		                done: function (e, data) {
-		                    if(!data.result) return console.log('未知的错误');
-		                    if(data.result.state == 'fail') {
-		                       console.log('fail')
-		                    }
-		                    else {
-		                    	console.log(data.result.result)
-		                        $('#imgUpload').attr('src',data.result.result).show()
-		                    }
-		                },
-		                progressall: function (e, data) {
-		                }
-		            }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
+					$(iElement).fileupload({
+						url: url,
+						dataType: 'json',
+						add: function(e, data) {
+							data.submit();
+						},
+						done: function(e, data) {
+							if (!data.result) return console.log('未知的错误');
+							if (data.result.state == 'fail') return console.log('fail');
+
+							console.log(data.result.result, scope)
+							scope.$apply(function() {
+								scope.model.portrait = data.result.result;
+							})
+						},
+						progressall: function(e, data) {}
+					}).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
 				}
 			};
 		});
@@ -105,11 +103,53 @@ define([
 				replace: false,
 				transclude: false,
 				restrict: 'A',
-				scope: {
-					
+				scope: {},
+				controller: function($scope, $element, $attrs) {
+					$scope.savex = function() {
+						console.log('00000')
+					}
+
+					$scope.$on('postSave', function() {
+						setTimeout(function() {
+							$($element).modal('hide');
+						})
+					})
 				},
-				controller: function ($scope, $element, $attrs) {
-					//console.log($scope.$parent);
+				link: function postLink(scope, iElement, iAttrs, ctrl) {
+					$(iElement).on('hidden.bs.modal', function(e) {
+						scope.$parent.model = {};
+						scope.$apply();
+					})
+				}
+			};
+		});
+
+	moduleDirect.directive('showModal',
+		function() {
+			return {
+				priority: 0,
+				template: '',
+				replace: false,
+				transclude: false,
+				restrict: 'A',
+				scope: {
+					saveType: '@',
+					targetModal: '@'
+				},
+				controller: function($scope, $element, $attrs) {
+					//console.log('showmodal ->',$scope)
+				},
+				link: function postLink(scope, iElement, iAttrs, ctrl) {
+					$(iElement).on('click', function() {
+						scope.$apply(function() {
+							var model = scope.saveType == 'update' ? scope.$parent.model : {};
+							scope.$emit('preSave', {
+								model: model,
+								saveType: scope.saveType
+							});
+							$(scope.targetModal).modal('show');
+						})
+					})
 				}
 			};
 		});
