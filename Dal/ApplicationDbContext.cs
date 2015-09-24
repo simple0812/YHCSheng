@@ -14,7 +14,7 @@ namespace YHCSheng.Dal
         public ApplicationDbContext() {
         }
 
-        protected override void OnConfiguring(EntityOptionsBuilder optionsBuilder) {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             optionsBuilder.UseSqlServer(GlobalVariables.ConnectionString);
             base.OnConfiguring(optionsBuilder);
         }

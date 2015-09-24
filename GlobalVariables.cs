@@ -1,6 +1,6 @@
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.Configuration.Json;
-using Microsoft.Framework.Runtime;
+using Microsoft.Dnx.Runtime;
 using Microsoft.AspNet.Hosting;
 using System.IO;
 
@@ -20,7 +20,8 @@ public static class GlobalVariables {
         builder.AddEnvironmentVariables();
 
         GlobalVariables.Configuration = builder.Build();
-        ConnectionString = Configuration.Get(@"Data:DefaultConnection:ConnectionString");
+        ConnectionString = "server=.;uid=sa;pwd=123;database=YHCSheng;"; 
+        //Configuration.Get(@"Data:DefaultConnection:ConnectionString");
         ApplicationBasePath = appEnv.ApplicationBasePath;
         EnvironmentName = env.EnvironmentName;
     } 
