@@ -3,12 +3,23 @@ using System.Collections.Generic;
 namespace YHCSheng.Dal
 {
     public interface IDao<T> where T : class {
+        T Save(T entity);
+
+        bool Delete(T entity);
+        bool DeleteById(int id);
+        bool DeleteBy(string key, object value)
+
         T Update(T entity);
-        T Insert(T entity);
+
+
         T GetById(int id);
         T GetBy(string key, object value);
-        void Delete(T entity);
-        List<T> FindAll();
-        List<T> Find(Dictionary<string, object> conditions);
+        
+        List<T> GetAll();
+        List<T> GetByCondition(Dictionary<string, object> conditions);//只能处理equal
+        List<T> GetByCondition(Expression expression = null);
+
+        List<T> GetByPaged(int firstnum, int pagesize, out int recordcount, Dictionary<string, object> conditions);
+        List<T> GetByPaged(int firstnum, int pagesize, out int recordcount, Expression expression = null);
     }
 }

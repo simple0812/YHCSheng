@@ -57,7 +57,7 @@ namespace YHCSheng.Controllers
             var txt = reader.ReadToEnd();
             var user = JsonConvert.DeserializeObject<User>(txt);
 
-            if(user != null && user.Id != null && user.Id > 0) {
+            if(user != null &&  user.Id > 0) {
                 new UserService().Update(user);
             }
 
@@ -65,7 +65,10 @@ namespace YHCSheng.Controllers
         }
 
         public string Remove(int id) {
-            new UserService().Remove(id);
+            var reader = new StreamReader(this.Request.Body);
+            var txt = reader.ReadToEnd();
+            Console.WriteLine(txt);
+            //new UserService().Remove(id);
             return "delete success";
         }
 
