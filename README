@@ -18,7 +18,9 @@
 ********************beta5***************************
 
 ********************beta7***************************
-1. k restore
-2. k publish
-3. k web
+1.dnu restore
+2.dnx ef migration add init
+3.dnx ef migration apply
+4.dnu publish
+5.dnx web 
 ********************beta7***************************
