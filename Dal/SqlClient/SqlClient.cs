@@ -6,9 +6,8 @@ using System.Linq.Expressions;
 
 namespace YHCSheng.Dal
 {
-    public class EFClient<T> : IDao<T> where T : class {
-        private readonly DbContext _context = new ApplicationDbContext();
-
+    public class Sql<T> : IDao<T> where T : class {
+        private readonly DbContext _context = new LogDbContext();
         public T Save(T entity) {
             _context.Set<T>().Add(entity);
             _context.SaveChanges();
@@ -34,6 +33,10 @@ namespace YHCSheng.Dal
         }
 
         public bool DeleteById(int id) {
+            string tbName = typeof(T).FullName.Replace(typeof(T).Namespace + ".", ""  );
+
+            string sql = "DELETE FROM {0} WHERE Id = {1}";
+
             return DeleteBy("Id", id);
         }
 

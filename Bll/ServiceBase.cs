@@ -9,15 +9,15 @@ namespace YHCSheng.Bll
         public IDao<T> Dao;
         
         public ServiceBase() {
-            Dao = new EFClient<T>();
+            Dao = new EFClient<T>(); //SqlClient<T>();
         }
 
         public IList<T> Retrieve(Dictionary<string, object> conditions = null) {
-            return Dao.Find(conditions);
+            return Dao.GetByCondition(conditions);
         }
 
         public T Create(T entity) {
-            return Dao.Insert(entity);
+            return Dao.Save(entity);
         }
 
         public T Update(T entity) {
@@ -37,9 +37,7 @@ namespace YHCSheng.Bll
         }
 
         public void Remove(int id) {
-            var entity = Dao.GetById(id);
-            if(entity != null)
-                Dao.Delete(Dao.GetById(id));
+            Dao.DeleteById(id);
         }
     }
 }

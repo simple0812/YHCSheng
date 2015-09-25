@@ -1,4 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Microsoft.Data.Entity;
+using System;
 
 namespace YHCSheng.Dal
 {
@@ -7,7 +11,7 @@ namespace YHCSheng.Dal
 
         bool Delete(T entity);
         bool DeleteById(int id);
-        bool DeleteBy(string key, object value)
+        bool DeleteBy(string key, object value);
 
         T Update(T entity);
 
@@ -17,9 +21,9 @@ namespace YHCSheng.Dal
         
         List<T> GetAll();
         List<T> GetByCondition(Dictionary<string, object> conditions);//只能处理equal
-        List<T> GetByCondition(Expression expression = null);
+        List<T> GetByCondition(Func<T, bool> conditions);
 
         List<T> GetByPaged(int firstnum, int pagesize, out int recordcount, Dictionary<string, object> conditions);
-        List<T> GetByPaged(int firstnum, int pagesize, out int recordcount, Expression expression = null);
+        List<T> GetByPaged(int firstnum, int pagesize, out int recordcount, Func<T, bool> conditions);
     }
 }
