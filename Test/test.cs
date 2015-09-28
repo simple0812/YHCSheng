@@ -1,27 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace YHCSheng.Test
-{
+
+namespace YHCSheng.Test {
     public class CustomerService : IMyService {
         public CustomerService(LoggingService myServiceInstance) {
             myServiceInstance.WriteToLog("SomeValue");
-    　　}
+        }
     }
 
     public class LoggingService {
         public void WriteToLog(string msg) {
-            Console.WriteLine(msg);        
+            Console.WriteLine(msg);
         }
     }
 
-    public interface IMyService {
-
-    }
+    public interface IMyService {}
 
 
     public class TestService {
         private ITodoRepository _repository;
+
         public TestService(ITodoRepository r) {
             _repository = r;
         }
@@ -44,7 +43,7 @@ namespace YHCSheng.Test
     }
 
     public class TodoRepository : ITodoRepository {
-        readonly List<TodoItem> _items = new List<TodoItem>();
+        private readonly List<TodoItem> _items = new List<TodoItem>();
 
         public IEnumerable<TodoItem> AllItems {
             get { return _items; }
@@ -55,14 +54,16 @@ namespace YHCSheng.Test
         }
 
         public void Add(TodoItem item) {
-            item.Id = 1 + _items.Max(x => (int?)x.Id) ?? 0;
+            item.Id = 1 + _items.Max(x => (int?) x.Id) ?? 0;
             _items.Add(item);
         }
 
         public bool TryDelete(int id) {
             var item = GetById(id);
 
-            if (item == null) { return false; }
+            if (item == null) {
+                return false;
+            }
 
             _items.Remove(item);
 
