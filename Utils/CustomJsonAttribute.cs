@@ -1,12 +1,8 @@
 using System;
 
 namespace YHCSheng.Utils {
-
-    [System.AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class CustomJsonAttribute : Attribute {
-        public string Key { get; set; }
-        public bool Ignore { get; set; }
-
         public CustomJsonAttribute(string key, bool ignore) {
             Key = key;
             Ignore = ignore;
@@ -19,5 +15,8 @@ namespace YHCSheng.Utils {
         public CustomJsonAttribute(bool ignore) {
             Ignore = ignore;
         }
+
+        public string Key { get; set; }
+        public bool Ignore { get; set; }
     }
 }

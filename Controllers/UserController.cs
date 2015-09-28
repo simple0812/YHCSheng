@@ -1,30 +1,25 @@
-using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Http;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
+using Microsoft.AspNet.Http;
+using Microsoft.AspNet.Mvc;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using YHCSheng.Bll;
 using YHCSheng.Models;
 using YHCSheng.Utils;
 
-
 namespace YHCSheng.Controllers {
     public class UserController : Controller {
-
-        public UserController() {}
-
         public string Demo(string name) {
-            Console.WriteLine(this.Request.Query.Get("xx"));
+            Console.WriteLine(Request.Query.Get("xx"));
             var users = new UserService().Retrieve().ToList();
             return JsonHelper.Instance.SerializeObject(users);
         }
 
         public string Add() {
-            var reader = new StreamReader(this.Request.Body);
+            var reader = new StreamReader(Request.Body);
             var txt = reader.ReadToEnd();
             var p = JsonConvert.DeserializeObject<User>(txt);
             var user = new UserService().Create(p);
@@ -33,8 +28,8 @@ namespace YHCSheng.Controllers {
         }
 
         public object List() {
-            int id = int.TryParse(this.Request.Query.Get("id"), out id) ? id : 0;
-            var name = this.Request.Query.Get("name");
+            int id = int.TryParse(Request.Query.Get("id"), out id) ? id : 0;
+            var name = Request.Query.Get("name");
             var conditions = new Dictionary<string, object>();
 
             if (id != 0) {
@@ -50,7 +45,7 @@ namespace YHCSheng.Controllers {
         }
 
         public string Update() {
-            var reader = new StreamReader(this.Request.Body);
+            var reader = new StreamReader(Request.Body);
             var txt = reader.ReadToEnd();
             var user = JsonConvert.DeserializeObject<User>(txt);
 
@@ -62,7 +57,7 @@ namespace YHCSheng.Controllers {
         }
 
         public string Remove(int id) {
-            var reader = new StreamReader(this.Request.Body);
+            var reader = new StreamReader(Request.Body);
             var txt = reader.ReadToEnd();
             Console.WriteLine(txt);
             //new UserService().Remove(id);

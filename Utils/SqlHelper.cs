@@ -1,111 +1,94 @@
-﻿using System;
-using System.Data; 
-using System.Collections.Generic;
-using System.Collections;
+﻿using System.Collections;
+using System.Data;
 using System.Data.SqlClient;
 
-namespace YHCSheng.Utils
-{
+namespace YHCSheng.Utils {
     /// <summary>
-    /// SqlHelper 的摘要说明
+    ///     SqlHelper 的摘要说明
     /// </summary>
-    public class SqlHelper
-    {
-        private static string CONN_STRING = "";
-        private static Hashtable parmCache = Hashtable.Synchronized(new Hashtable());
+    public class SqlHelper {
+        private static string _connString = "";
+        private static readonly Hashtable ParmCache = Hashtable.Synchronized(new Hashtable());
 
         /// <summary>
-        /// 
         /// </summary>
-        public static string ConnStr
-        {
-            //set { CONN_STRING = value; }
-            set { }
+        public static string ConnStr {
+            set { _connString = value; }
         }
 
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="cmdType"></param>
         /// <param name="cmdText"></param>
         /// <param name="cmdParms"></param>
         /// <returns></returns>
-        public static int ExecuteNonQuery(CommandType cmdType, string cmdText, params SqlParameter[] cmdParms)
-        {
+        public static int ExecuteNonQuery(CommandType cmdType, string cmdText, params SqlParameter[] cmdParms) {
+            var cmd = new SqlCommand();
 
-            SqlCommand cmd = new SqlCommand();
-
-            using (SqlConnection conn = new SqlConnection(CONN_STRING))
-            {
+            using (var conn = new SqlConnection(_connString)) {
                 PrepareCommand(cmd, conn, null, cmdType, cmdText, cmdParms);
-                int val = cmd.ExecuteNonQuery();
+                var val = cmd.ExecuteNonQuery();
                 cmd.Parameters.Clear();
                 return val;
             }
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="conn"></param>
         /// <param name="cmdType"></param>
         /// <param name="cmdText"></param>
         /// <param name="cmdParms"></param>
         /// <returns></returns>
-        public static int ExecuteNonQuery(SqlConnection conn, CommandType cmdType, string cmdText, params SqlParameter[] cmdParms)
-        {
-            SqlCommand cmd = new SqlCommand();
+        public static int ExecuteNonQuery(SqlConnection conn, CommandType cmdType, string cmdText,
+            params SqlParameter[] cmdParms) {
+            var cmd = new SqlCommand();
 
             PrepareCommand(cmd, conn, null, cmdType, cmdText, cmdParms);
-            int val = cmd.ExecuteNonQuery();
+            var val = cmd.ExecuteNonQuery();
             cmd.Parameters.Clear();
             return val;
         }
 
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="trans"></param>
         /// <param name="cmdType"></param>
         /// <param name="cmdText"></param>
         /// <param name="cmdParms"></param>
         /// <returns></returns>
-        public static int ExecuteNonQuery(SqlTransaction trans, CommandType cmdType, string cmdText, params SqlParameter[] cmdParms)
-        {
-            SqlCommand cmd = new SqlCommand();
+        public static int ExecuteNonQuery(SqlTransaction trans, CommandType cmdType, string cmdText,
+            params SqlParameter[] cmdParms) {
+            var cmd = new SqlCommand();
             PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, cmdParms);
-            int val = cmd.ExecuteNonQuery();
+            var val = cmd.ExecuteNonQuery();
             cmd.Parameters.Clear();
             return val;
         }
 
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="cmdType"></param>
         /// <param name="cmdText"></param>
         /// <param name="cmdParms"></param>
         /// <returns></returns>
-        public static SqlDataReader ExecuteReader(CommandType cmdType, string cmdText, params SqlParameter[] cmdParms)
-        {
-            SqlCommand cmd = new SqlCommand();
-            SqlConnection conn = new SqlConnection(CONN_STRING);
+        public static SqlDataReader ExecuteReader(CommandType cmdType, string cmdText, params SqlParameter[] cmdParms) {
+            var cmd = new SqlCommand();
+            var conn = new SqlConnection(_connString);
 
             // we use a try/catch here because if the method throws an exception we want to 
             // close the connection throw code, because no datareader will exist, hence the 
             // commandBehaviour.CloseConnection will not work
-            try
-            {
+            try {
                 PrepareCommand(cmd, conn, null, cmdType, cmdText, cmdParms);
-                SqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                var rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                 cmd.Parameters.Clear();
                 return rdr;
             }
-            catch
-            {
+            catch {
                 conn.Close();
                 throw;
             }
@@ -113,78 +96,54 @@ namespace YHCSheng.Utils
 
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="cmdType"></param>
         /// <param name="cmdText"></param>
         /// <param name="cmdParms"></param>
         /// <returns></returns>
-        public static object ExecuteScalar(CommandType cmdType, string cmdText, params SqlParameter[] cmdParms)
-        {
-            SqlCommand cmd = new SqlCommand();
+        public static object ExecuteScalar(CommandType cmdType, string cmdText, params SqlParameter[] cmdParms) {
+            var cmd = new SqlCommand();
 
-            using (SqlConnection conn = new SqlConnection(CONN_STRING))
-            {
+            using (var conn = new SqlConnection(_connString)) {
                 PrepareCommand(cmd, conn, null, cmdType, cmdText, cmdParms);
-                object val = cmd.ExecuteScalar();
+                var val = cmd.ExecuteScalar();
                 cmd.Parameters.Clear();
                 return val;
             }
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="conn"></param>
         /// <param name="cmdType"></param>
         /// <param name="cmdText"></param>
         /// <param name="cmdParms"></param>
         /// <returns></returns>
-        public static object ExecuteScalar(SqlConnection conn, CommandType cmdType, string cmdText, params SqlParameter[] cmdParms)
-        {
-
-            SqlCommand cmd = new SqlCommand();
+        public static object ExecuteScalar(SqlConnection conn, CommandType cmdType, string cmdText,
+            params SqlParameter[] cmdParms) {
+            var cmd = new SqlCommand();
 
             PrepareCommand(cmd, conn, null, cmdType, cmdText, cmdParms);
-            object val = cmd.ExecuteScalar();
+            var val = cmd.ExecuteScalar();
             cmd.Parameters.Clear();
             return val;
         }
 
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="cacheKey"></param>
         /// <param name="cmdParms"></param>
-        public static void CacheParameters(string cacheKey, params SqlParameter[] cmdParms)
-        {
-            parmCache[cacheKey] = cmdParms;
+        public static void CacheParameters(string cacheKey, params SqlParameter[] cmdParms) {
+            ParmCache[cacheKey] = cmdParms;
         }
 
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="cacheKey"></param>
         /// <returns></returns>
-        //public static SqlParameter[] GetCachedParameters(string cacheKey)
-        //{
-        //    SqlParameter[] cachedParms = (SqlParameter[])parmCache[cacheKey];
-
-        //    if (cachedParms == null)
-        //        return null;
-
-        //    SqlParameter[] clonedParms = new SqlParameter[cachedParms.Length];
-
-        //    for (int i = 0, j = cachedParms.Length; i < j; i++)
-        //        clonedParms[i] = (SqlParameter)((System.ICloneable)cachedParms[i]).Clone();
-
-        //    return clonedParms;
-        //}
-
         /// <summary>
-        /// Prepare a command for execution
+        ///     Prepare a command for execution
         /// </summary>
         /// <param name="cmd">SqlCommand object</param>
         /// <param name="conn">SqlConnection object</param>
@@ -192,9 +151,8 @@ namespace YHCSheng.Utils
         /// <param name="cmdType">Cmd type e.g. stored procedure or text</param>
         /// <param name="cmdText">Command text, e.g. Select * from Products</param>
         /// <param name="cmdParms">SqlParameters to use in the command</param>
-        public static void PrepareCommand(SqlCommand cmd, SqlConnection conn, SqlTransaction trans, CommandType cmdType, string cmdText, SqlParameter[] cmdParms)
-        {
-
+        public static void PrepareCommand(SqlCommand cmd, SqlConnection conn, SqlTransaction trans, CommandType cmdType,
+            string cmdText, SqlParameter[] cmdParms) {
             if (conn.State != ConnectionState.Open)
                 conn.Open();
 
@@ -206,9 +164,8 @@ namespace YHCSheng.Utils
 
             cmd.CommandType = cmdType;
 
-            if (cmdParms != null)
-            {
-                foreach (SqlParameter parm in cmdParms)
+            if (cmdParms != null) {
+                foreach (var parm in cmdParms)
                     cmd.Parameters.Add(parm);
             }
         }

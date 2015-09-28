@@ -25,7 +25,7 @@ namespace YHCSheng.Routers
             return this;
         }
 
-        public TypedRouteModel Action<T, U>(Expression<Func<T, U>> expression) {
+        public TypedRouteModel Action<T, TU>(Expression<Func<T, TU>> expression) {
             ActionMember = GetMethodInfoInternal(expression);
             ControllerType = ActionMember.DeclaringType.GetTypeInfo();
             return this;
@@ -61,17 +61,15 @@ namespace YHCSheng.Routers
 
         public void Apply(ApplicationModel application) {
             foreach (var controller in application.Controllers) {
-                if (Routes.ContainsKey(controller.ControllerType)) {
-                    var typedRoutes = Routes[controller.ControllerType];
-                    foreach (var route in typedRoutes) {
-                        var action = controller.Actions.FirstOrDefault(x => x.ActionMethod == route.ActionMember);
-                        if (action != null) {
-                            action.AttributeRouteModel = route;
-                            //注意这里是直接替换，会影响现有Controller上的Route特性定义的路由
-                            foreach (var method in route.HttpMethods) {
-                                action.HttpMethods.Add(method);
-                            }
-                        }
+                if (!Routes.ContainsKey(controller.ControllerType)) continue;
+                var typedRoutes = Routes[controller.ControllerType];
+                foreach (var route in typedRoutes) {
+                    var action = controller.Actions.FirstOrDefault(x => x.ActionMethod == route.ActionMember);
+                    if (action == null) continue;
+                    action.AttributeRouteModel = route;
+                    //注意这里是直接替换，会影响现有Controller上的Route特性定义的路由
+                    foreach (var method in route.HttpMethods) {
+                        action.HttpMethods.Add(method);
                     }
                 }
             }

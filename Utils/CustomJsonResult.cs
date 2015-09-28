@@ -1,71 +1,67 @@
 using System.Collections;
-using System;
 
-namespace YHCSheng.Utils
-{
+namespace YHCSheng.Utils {
     public sealed class CustomJsonResult {
-        public string Code {get;set;}
-        public string Message {get;set;}
-        public object Result {get;set;}
+        public static readonly CustomJsonResult Instance = new CustomJsonResult();
+        public string Code { get; set; }
+        public string Message { get; set; }
+        public object Result { get; set; }
 
         private CustomJsonResult() {}
-        public static readonly CustomJsonResult Instance = new CustomJsonResult();
-        
+
         public string GetSuccess(object result) {
-            this.Code = "success";
-            this.Message = "";
-            this.Result = JsonHelper.Instance.ConvertToDictionary(result);
+            Code = "success";
+            Message = "";
+            Result = JsonHelper.Instance.ConvertToDictionary(result);
 
             return JsonHelper.Instance.SerializeObject(this);
         }
 
         public string GetSuccess(string result) {
-            this.Code = "success";
-            this.Message = "";
-            this.Result = result;
+            Code = "success";
+            Message = "";
+            Result = result;
 
             return JsonHelper.Instance.SerializeObject(this);
         }
 
         public string GetSuccess(int result) {
-            this.Code = "success";
-            this.Message = "";
-            this.Result = result;
+            Code = "success";
+            Message = "";
+            Result = result;
 
             return JsonHelper.Instance.SerializeObject(this);
         }
 
         public string GetSuccess(bool result) {
-            this.Code = "success";
-            this.Message = "";
-            this.Result = result;
+            Code = "success";
+            Message = "";
+            Result = result;
 
             return JsonHelper.Instance.SerializeObject(this);
-
         }
 
         public string GetSuccess(ICollection collection) {
-            this.Code = "success";
-            this.Message = "";
-            this.Result = JsonHelper.Instance.ConvertToDictionary(collection);
+            Code = "success";
+            Message = "";
+            Result = JsonHelper.Instance.ConvertToDictionary(collection);
 
             return JsonHelper.Instance.SerializeObject(this);
-
         }
-        
+
         public string GetError(string message) {
-            this.Code = "error";
-            this.Message = message;
-            this.Result = "";
+            Code = "error";
+            Message = message;
+            Result = "";
 
             return JsonHelper.Instance.SerializeObject(this);
         }
 
 
         public string PageError(string message) {
-            this.Code = "error";
-            this.Message = message;
-            this.Result = new {
+            Code = "error";
+            Message = message;
+            Result = new {
                 entities = "",
                 total = 0
             };
@@ -74,12 +70,12 @@ namespace YHCSheng.Utils
         }
 
         public string PageSuccess(ICollection collection, int total = 0) {
-            if(total == 0) total = collection.Count;
-            this.Code = "success";
-            this.Message = "";
-            this.Result = new {
+            if (total == 0) total = collection.Count;
+            Code = "success";
+            Message = "";
+            Result = new {
                 entities = JsonHelper.Instance.ConvertToDictionary(collection),
-                total = total
+                total
             };
 
             return JsonHelper.Instance.SerializeObject(this);
