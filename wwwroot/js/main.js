@@ -11,7 +11,6 @@ define([], function() {
             'validator': 'lib/validator',
             'backbone': 'lib/backbone',
             'pager': 'lib/pager',
-            'extension': 'lib/extension',
             'jquery': 'lib/jquery',
             'jquery.ui.widget': 'lib/jquery.ui.widget',
             'jquery.fileupload': 'lib/jquery.fileupload',
@@ -19,18 +18,18 @@ define([], function() {
             'md5': 'md5'
         },
         shim: {
-            "angular": {
-                exports: "angular"
+            'angular': {
+                exports: 'angular'
             },
             'datetimepicker': {
                 exports: 'datetimepicker',
                 deps: ['jquery']
             },
-            "angular-route": {
-                exports: "angular-route"
+            'angular-route': {
+                exports: 'angular-route'
             },
             'common': {
-                exports: "angular-route",
+                exports: 'angular-route',
                 deps: ['jquery', 'bootstrap']
             },
             'moment': {

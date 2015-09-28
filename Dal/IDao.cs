@@ -4,8 +4,7 @@ using System.Linq.Expressions;
 using Microsoft.Data.Entity;
 using System;
 
-namespace YHCSheng.Dal
-{
+namespace YHCSheng.Dal {
     public interface IDao<T> where T : class {
         T Save(T entity);
 
@@ -18,9 +17,9 @@ namespace YHCSheng.Dal
 
         T GetById(int id);
         T GetBy(string key, object value);
-        
+
         List<T> GetAll();
-        List<T> GetByCondition(Dictionary<string, object> conditions);//只能处理equal
+        List<T> GetByCondition(Dictionary<string, object> conditions); //只能处理equal
         List<T> GetByCondition(Func<T, bool> conditions);
 
         List<T> GetByPaged(int firstnum, int pagesize, out int recordcount, Dictionary<string, object> conditions);

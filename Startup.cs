@@ -13,17 +13,19 @@ using YHCSheng.Filters;
 using YHCSheng.Routers;
 using YHCSheng.Test;
 
+using System.Linq.Expressions;
+
 
 public class Startup {
     public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv) {
 
         //依赖注入
-        var xbuilder = new ContainerBuilder(); 
-        xbuilder.RegisterType<LoggingService>(); 
-        xbuilder.RegisterType<CustomerService>(); 
-        using (var container = xbuilder.Build()) { 
-            var customService = container.Resolve<CustomerService>(); 
-        } 
+        var xbuilder = new ContainerBuilder();
+        xbuilder.RegisterType<LoggingService>();
+        xbuilder.RegisterType<CustomerService>();
+        using (var container = xbuilder.Build()) {
+            var customService = container.Resolve<CustomerService>();
+        }
 
         GlobalVariables.Init(env, appEnv);
     }
@@ -46,7 +48,7 @@ public class Startup {
             //options.Filters.Add(typeof(ActionFilter));
             //options.Filters.Add(typeof(ResultFilter));
             //options.Filters.Add(typeof(AuthorizationFilter));
-            options.Filters.Add(typeof(ExceptionFilter));
+            options.Filters.Add(typeof (ExceptionFilter));
         });
 
         services.AddEntityFramework()
@@ -56,7 +58,7 @@ public class Startup {
 }
 
 public class TimeRecorderMiddleware {
-    readonly RequestDelegate _next;
+    private readonly RequestDelegate _next;
 
     public TimeRecorderMiddleware(RequestDelegate next) {
         if (next != null) _next = next;
@@ -70,7 +72,7 @@ public class TimeRecorderMiddleware {
         await _next(context);
 
         var msg = @"method:{1}, url:{0} ->   process time:{2} ms";
-        Console.WriteLine(string.Format(msg,context.Request.Path, context.Request.Method, sw.ElapsedMilliseconds));
+        Console.WriteLine(string.Format(msg, context.Request.Path, context.Request.Method, sw.ElapsedMilliseconds));
     }
 }
 

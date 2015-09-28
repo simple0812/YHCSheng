@@ -68,7 +68,7 @@ define([
 
                 $http.get(apiUrl, {params : pager.condition}).success(function(json) {
                     if (!json) return def.reject('未知的错误');
-                    if (!json.code || json.code == 'error')  return def.reject(json.message);
+                    if (!json.code || json.code === 'error')  return def.reject(json.message);
                     def.resolve(json);
                 }).error(function(data, status, headers, config) {
                     def.reject(data);

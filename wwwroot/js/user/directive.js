@@ -51,13 +51,13 @@ define([
 				restrict: 'A',
 				scope: {},
 				controller: function($scope, $element, $attrs) {
-					$scope.$parent.$watch('model.selStatus', function(newValue, oldValue, scope) {
-						if (newValue == oldValue) return;
-						$scope.$emit('selectItem', {
-							id: $scope.$parent.model.id,
-							val: newValue
-						});
-					})
+				    $scope.$parent.$watch('model.selStatus', function(newValue, oldValue, scope) {
+				        if (newValue === oldValue) return;
+				        $scope.$emit('selectItem', {
+				            id: $scope.$parent.model.id,
+				            val: newValue
+				        });
+				    });
 				}
 			};
 		});
@@ -81,12 +81,12 @@ define([
 						},
 						done: function(e, data) {
 							if (!data.result) return console.log('未知的错误');
-							if (data.result.state == 'fail') return console.log('fail');
+							if (data.result.state === 'fail') return console.log('fail');
 
-							console.log(data.result.result, scope)
-							scope.$apply(function() {
-								scope.model.portrait = data.result.result;
-							})
+						    console.log(data.result.result, scope);
+						    scope.$apply(function() {
+						        scope.model.portrait = data.result.result;
+						    });
 						},
 						progressall: function(e, data) {}
 					}).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
@@ -105,21 +105,17 @@ define([
 				restrict: 'A',
 				scope: {},
 				controller: function($scope, $element, $attrs) {
-					$scope.savex = function() {
-						console.log('00000')
-					}
-
-					$scope.$on('postSave', function() {
-						setTimeout(function() {
-							$($element).modal('hide');
-						})
-					})
+				    $scope.$on('postSave', function() {
+				        setTimeout(function() {
+				            $($element).modal('hide');
+				        });
+				    });
 				},
 				link: function postLink(scope, iElement, iAttrs, ctrl) {
-					$(iElement).on('hidden.bs.modal', function(e) {
-						scope.$parent.model = {};
-						scope.$apply();
-					})
+				    $(iElement).on('hidden.bs.modal', function(e) {
+				        scope.$parent.model = {};
+				        scope.$apply();
+				    });
 				}
 			};
 		});
@@ -140,16 +136,16 @@ define([
 					//console.log('showmodal ->',$scope)
 				},
 				link: function postLink(scope, iElement, iAttrs, ctrl) {
-					$(iElement).on('click', function() {
-						scope.$apply(function() {
-							var model = scope.saveType == 'update' ? scope.$parent.model : {};
-							scope.$emit('preSave', {
-								model: model,
-								saveType: scope.saveType
-							});
-							$(scope.targetModal).modal('show');
-						})
-					})
+				    $(iElement).on('click', function() {
+				        scope.$apply(function() {
+				            var model = scope.saveType == 'update' ? scope.$parent.model : {};
+				            scope.$emit('preSave', {
+				                model: model,
+				                saveType: scope.saveType
+				            });
+				            $(scope.targetModal).modal('show');
+				        });
+				    });
 				}
 			};
 		});

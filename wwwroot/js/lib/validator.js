@@ -3,22 +3,22 @@
          className: 'validator',
          compareMode: {
              lt: function(org, target) {
-                 return org < target
+                 return org < target;
              },
              eq: function(org, target) {
-                 return org == target
+                 return org === target;
              },
              gt: function(org, target) {
-                 return org > target
+                 return org > target;
              },
              le: function(org, target) {
-                 return org <= target
+                 return org <= target;
              },
              ge: function(org, target) {
-                 return org >= target
+                 return org >= target;
              },
              ne: function(org, target) {
-                 return org != target
+                 return org !== target;
              }
          },
          actions: {
@@ -73,7 +73,7 @@
              var isRequired = $(obj).get(0).hasAttribute('required') || $(obj).get(0).hasAttribute('xrequired'); //是否必须
              var isCompare = $(obj).attr('compare'); //是否比较
 
-             if (txt.trim().length == 0) {
+             if (txt.trim().length === 0) {
                  if (isRequired) {
                      common.popBy(obj, des + "不能为空");
                      return false;
@@ -88,7 +88,7 @@
              }
 
 
-             if (p.length == 0) return true;
+             if (p.length === 0) return true;
 
              var action = this.actions[p];
 
@@ -157,7 +157,7 @@
                  if (!_this.validate(o)) ret++;
              });
 
-             return ret == 0;
+             return ret === 0;
          }
      };
 

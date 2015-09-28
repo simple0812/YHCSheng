@@ -16,7 +16,7 @@ define([
         $scope.selectItems = [];
 
         $scope.$on('$destroy', function() {
-            console.log($scope.models.length + '..')
+            console.log($scope.models.length + '..');
         });
 
         $scope.$watch('selectItems', function(newValue, oldValue, scope) {
@@ -25,9 +25,9 @@ define([
 
             _.each($scope.models, function(item) {
                 item.selStatus = $scope.selectItems.indexOf(item.id) > -1;
-            })
+            });
 
-        })
+        });
 
         $scope.$on('selectItem', function(evt, args) {
             if (!args) return;
@@ -36,7 +36,7 @@ define([
                 $scope.selectItems.push(args.id);
                 $scope.selectItems = _.uniq($scope.selectItems);
             } else {
-                $scope.selectItems = _.without($scope.selectItems, args.id)
+                $scope.selectItems = _.without($scope.selectItems, args.id);
             }
         });
 
@@ -61,7 +61,7 @@ define([
 
         $scope.removeBatch = function(scope, obj) {
             if ($scope.selectItems.length == 0) return common.popBy(obj, '请选择要删除的项目');
-            if (!confirm('确认删除选中的项目吗？')) return;
+            if (!confirm('确认删除选中的项目吗？')) return '';
 
             svc.delete($scope.selectItems).done(function() {
                 showList();
@@ -100,7 +100,7 @@ define([
                     $('.userList').show();
                 }).fail(function() {
                     console.log('数据获取失败');
-                })
+                });
         }
 
         function create() {
@@ -109,16 +109,16 @@ define([
                 $scope.$broadcast('postSave');
             }).fail(function() {
                 $scope.$broadcast('postSave');
-            })
+            });
         }
 
         function update() {
             svc.update($scope.model).done(function() {
                 var scope = $('#user').scope();
-                var model = _.find(scope.models, function(item) {return item.id == $scope.model.id;});
+                var model = _.find(scope.models, function(item) {return item.id === $scope.model.id;});
 
-                for(var each in $scope.model)
-                    model[each] = $scope.model[each]
+                for (var each in $scope.model)
+                    model[each] = $scope.model[each];
 
                 $scope.$broadcast('postSave');
             }).fail(function() {

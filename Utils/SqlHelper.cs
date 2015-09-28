@@ -168,20 +168,20 @@ namespace YHCSheng.Utils
         /// </summary>
         /// <param name="cacheKey"></param>
         /// <returns></returns>
-        public static SqlParameter[] GetCachedParameters(string cacheKey)
-        {
-            SqlParameter[] cachedParms = (SqlParameter[])parmCache[cacheKey];
+        //public static SqlParameter[] GetCachedParameters(string cacheKey)
+        //{
+        //    SqlParameter[] cachedParms = (SqlParameter[])parmCache[cacheKey];
 
-            if (cachedParms == null)
-                return null;
+        //    if (cachedParms == null)
+        //        return null;
 
-            SqlParameter[] clonedParms = new SqlParameter[cachedParms.Length];
+        //    SqlParameter[] clonedParms = new SqlParameter[cachedParms.Length];
 
-            for (int i = 0, j = cachedParms.Length; i < j; i++)
-                clonedParms[i] = (SqlParameter)((ICloneable)cachedParms[i]).Clone();
+        //    for (int i = 0, j = cachedParms.Length; i < j; i++)
+        //        clonedParms[i] = (SqlParameter)((System.ICloneable)cachedParms[i]).Clone();
 
-            return clonedParms;
-        }
+        //    return clonedParms;
+        //}
 
         /// <summary>
         /// Prepare a command for execution
