@@ -29,11 +29,11 @@ define([
 				scope: false,
 				link: function postLink(scope, iElement, iAttrs, ctrl) {
 					$(iElement).val(query_list.month).datetimepicker({
-						format: "yyyy-mm",
+						format: 'yyyy-mm',
 						autoclose: true,
 						language: 'zh-CN',
-						startView: "year",
-						minView: "year",
+						startView: 'year',
+						minView: 'year',
 						minuteStep: 1,
 						endDate: new Date()
 					});
