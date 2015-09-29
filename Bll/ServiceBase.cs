@@ -7,8 +7,8 @@ namespace YHCSheng.Bll {
     public class ServiceBase<T> where T : class {
         private readonly IDao<T> _dao;
 
-        protected ServiceBase() {
-            _dao = new EFClient<T>(); //SqlClient<T>();
+        protected ServiceBase(IDao<T> dao ) {
+            _dao = dao;
         }
 
         public IList<T> GetByCondition(Expression<Func<T, bool>> conditions, Dictionary<string, bool> order) {

@@ -7,7 +7,11 @@ using YHCSheng.Extensions;
 
 namespace YHCSheng.Dal {
     public class EFClient<T> : IDao<T> where T : class {
-        private readonly DbContext _context = new ApplicationDbContext();
+        private readonly DbContext _context;
+
+        public EFClient(DbContext context) {
+            _context = context;
+        }
 
         public T Save(T entity) {
             _context.Set<T>().Add(entity);

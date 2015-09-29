@@ -2,22 +2,37 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Autofac;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
+using Microsoft.Data.Entity;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using YHCSheng.Bll;
+using YHCSheng.Dal;
 using YHCSheng.Models;
+using YHCSheng.Test;
 using YHCSheng.Utils;
 
 namespace YHCSheng.Controllers {
     public class UserController : Controller {
+        private ServiceBase<User> _service;
+
+        public UserController() {
+            var xbuilder = new ContainerBuilder();
+            xbuilder.RegisterType<ApplicationDbContext>().As<DbContext>();
+            xbuilder.RegisterType<EFClient<User>>().As<IDao<User>>();
+            xbuilder.RegisterType<UserService>();
+            using (var container = xbuilder.Build()) {
+                _service = container.Resolve<UserService>();
+            }
+        }
 
         public string Add() {
             var reader = new StreamReader(Request.Body);
             var txt = reader.ReadToEnd();
             var p = JsonConvert.DeserializeObject<User>(txt);
-            var user = new UserService().Create(p);
+            var user = _service.Create(p);
 
             return CustomJsonResult.Instance.GetSuccess(user);
         }
@@ -26,9 +41,9 @@ namespace YHCSheng.Controllers {
             int id;
             id = int.TryParse(Request.Query.Get("id"), out id) ? id : 0;
             var name = Request.Query.Get("name");
-            var conditions = new Dictionary<string, bool> {{"Id", true}, {"Name", true} };
+            var conditions = new Dictionary<string, bool> {{"Id", true}, {"Name", true}};
 
-            var users = new UserService().GetByCondition((x) => true, conditions).ToList();
+            var users = _service.GetByCondition((x) => true, conditions).ToList();
             return CustomJsonResult.Instance.PageSuccess(users);
         }
 
@@ -38,7 +53,7 @@ namespace YHCSheng.Controllers {
             var user = JsonConvert.DeserializeObject<User>(txt);
 
             if (user != null && user.Id > 0) {
-                new UserService().Update(user);
+                _service.Update(user);
             }
 
             return CustomJsonResult.Instance.GetSuccess(user);
@@ -62,9 +77,7 @@ namespace YHCSheng.Controllers {
             var fileName = "";
 
             foreach (var file in portraits) {
-                fileName = ContentDispositionHeaderValue
-                    .Parse(file.ContentDisposition)
-                    .FileName.Trim('"');
+                fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
 
                 var supportedTypes = new[] {"jpg", "jpeg", "png", "gif", "bmp"};
                 var fileExt = Path.GetExtension(fileName).Substring(1);
