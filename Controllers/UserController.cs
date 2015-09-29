@@ -11,12 +11,11 @@ using Newtonsoft.Json;
 using YHCSheng.Bll;
 using YHCSheng.Dal;
 using YHCSheng.Models;
-using YHCSheng.Test;
 using YHCSheng.Utils;
 
 namespace YHCSheng.Controllers {
     public class UserController : Controller {
-        private ServiceBase<User> _service;
+        private readonly ServiceBase<User> _service;
 
         public UserController() {
             var xbuilder = new ContainerBuilder();
@@ -43,7 +42,7 @@ namespace YHCSheng.Controllers {
             var name = Request.Query.Get("name");
             var conditions = new Dictionary<string, bool> {{"Id", true}, {"Name", true}};
 
-            var users = _service.GetByCondition((x) => true, conditions).ToList();
+            var users = _service.GetByCondition(x => true, conditions).ToList();
             return CustomJsonResult.Instance.PageSuccess(users);
         }
 

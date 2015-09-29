@@ -6,9 +6,5 @@ namespace YHCSheng.Bll {
         public UserService(IDao<User> dao ) : base(dao) {
             
         }
-
-        public void Test() {
-            IDao<Article> dao 
-        }
     }
 }

@@ -101,8 +101,6 @@ namespace YHCSheng.Dal {
                     Expression.Lambda<Func<T, object>>(
                         Expression.Convert(Expression.Property(parameter, keys[i]), typeof(object)), parameter);
 
-                Console.WriteLine(lamda.ToString());
-
                 if (i == 0) {
                     list = order[keys[i]] ? list.OrderBy(lamda) : list.OrderByDescending(lamda);
                 } else {
