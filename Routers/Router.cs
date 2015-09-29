@@ -20,7 +20,6 @@ namespace YHCSheng.Routers
         public void Route(MvcOptions opt) {
             opt.EnableTypedRouting();
             
-            opt.Get("demo/{name}", c => c.Action<UserController>(x => x.Demo(Param<string>.Any)));
             opt.Get("api/user", c => c.Action<UserController>(x => x.List()));
             opt.Post("api/user", c => c.Action<UserController>(x => x.Add()));
             opt.Delete("api/user/{id?}", c => c.Action<UserController>(x => x.Remove(Param<int>.Any)));

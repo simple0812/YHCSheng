@@ -12,11 +12,6 @@ using YHCSheng.Utils;
 
 namespace YHCSheng.Controllers {
     public class UserController : Controller {
-        public string Demo(string name) {
-            Console.WriteLine(Request.Query.Get("xx"));
-            var users = new UserService().Retrieve().ToList();
-            return JsonHelper.Instance.SerializeObject(users);
-        }
 
         public string Add() {
             var reader = new StreamReader(Request.Body);
@@ -28,19 +23,12 @@ namespace YHCSheng.Controllers {
         }
 
         public object List() {
-            int id = int.TryParse(Request.Query.Get("id"), out id) ? id : 0;
+            int id;
+            id = int.TryParse(Request.Query.Get("id"), out id) ? id : 0;
             var name = Request.Query.Get("name");
-            var conditions = new Dictionary<string, object>();
+            var conditions = new Dictionary<string, bool> {{"Id", true}, {"Name", true} };
 
-            if (id != 0) {
-                conditions.Add("Id", id);
-            }
-
-            if (!string.IsNullOrEmpty(name)) {
-                conditions.Add("Name", name);
-            }
-
-            var users = new UserService().Retrieve(conditions).ToList();
+            var users = new UserService().GetByCondition((x) => true, conditions).ToList();
             return CustomJsonResult.Instance.PageSuccess(users);
         }
 
@@ -60,7 +48,6 @@ namespace YHCSheng.Controllers {
             var reader = new StreamReader(Request.Body);
             var txt = reader.ReadToEnd();
             Console.WriteLine(txt);
-            //new UserService().Remove(id);
             return "delete success";
         }
 

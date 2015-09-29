@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using YHCSheng.Dal;
 
 namespace YHCSheng.Bll {
@@ -9,8 +11,12 @@ namespace YHCSheng.Bll {
             _dao = new EFClient<T>(); //SqlClient<T>();
         }
 
-        public IList<T> Retrieve(Dictionary<string, object> conditions = null) {
-            return _dao.GetByCondition(conditions);
+        public IList<T> GetByCondition(Expression<Func<T, bool>> conditions, Dictionary<string, bool> order) {
+            return _dao.GetByCondition(conditions, order);
+        }
+
+        public IList<T> GetPageList(int pageSize, int pageIndex, out int recordCount, Expression<Func<T, bool>> where, Dictionary<string, bool> order) {
+            return _dao.GetPageList(pageSize, pageIndex, out recordCount, where, order);
         }
 
         public T Create(T entity) {
@@ -29,11 +35,11 @@ namespace YHCSheng.Bll {
             return _dao.GetBy(key, value);
         }
 
-        public void Remove(T entity) {
+        public void Delete(T entity) {
             _dao.Delete(entity);
         }
 
-        public void Remove(int id) {
+        public void Delete(int id) {
             _dao.DeleteById(id);
         }
     }

@@ -14,15 +14,13 @@ namespace YHCSheng.Dal {
 
         T Update(T entity);
 
-
         T GetById(int id);
         T GetBy(string key, object value);
 
         List<T> GetAll();
-        List<T> GetByCondition(Dictionary<string, object> conditions); //只能处理equal
-        List<T> GetByCondition(Func<T, bool> conditions);
 
-        List<T> GetByPaged(int firstnum, int pagesize, out int recordcount, Dictionary<string, object> conditions);
-        List<T> GetByPaged(int firstnum, int pagesize, out int recordcount, Func<T, bool> conditions);
+        // 排序 true : asc   false : desc
+        List<T> GetByCondition(Expression<Func<T, bool>> where, Dictionary<string, bool> order);
+        List<T> GetPageList(int pageSize, int pageIndex, out int recordCount, Expression<Func<T, bool>> where, Dictionary<string, bool> order);
     }
 }

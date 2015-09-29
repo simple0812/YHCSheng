@@ -1,11 +1,11 @@
-using Microsoft.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.Data.Entity;
+using YHCSheng.Extensions;
 
-namespace YHCSheng.Dal
-{
+namespace YHCSheng.Dal {
     public class EFClient<T> : IDao<T> where T : class {
         private readonly DbContext _context = new ApplicationDbContext();
 
@@ -16,8 +16,8 @@ namespace YHCSheng.Dal
         }
 
         public bool Delete(T entity) {
-            if(_context.Entry<T>(entity) == null) return false;
-            _context.Entry<T>(entity).State = EntityState.Deleted;
+            if (_context.Entry(entity) == null) return false;
+            _context.Entry(entity).State = EntityState.Deleted;
             _context.SaveChanges();
 
             return true;
@@ -25,9 +25,9 @@ namespace YHCSheng.Dal
 
         public bool DeleteBy(string key, object value) {
             var entity = GetBy(key, value);
-            if(entity == null) return false;
+            if (entity == null) return false;
 
-            _context.Entry<T>(entity).State = EntityState.Deleted;
+            _context.Entry(entity).State = EntityState.Deleted;
             _context.SaveChanges();
 
             return true;
@@ -40,7 +40,7 @@ namespace YHCSheng.Dal
         public T Update(T entity) {
             var p = _context.Set<T>();
             p.Attach(entity);
-            _context.Entry<T>(entity).State = EntityState.Modified;
+            _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
             return entity;
         }
@@ -50,49 +50,67 @@ namespace YHCSheng.Dal
         }
 
         public T GetBy(string key, object value) {
-            var parameter = Expression.Parameter(typeof(T), "p");
+            var parameter = Expression.Parameter(typeof (T), "p");
             var body = Expression.Equal(Expression.Property(parameter, key), Expression.Constant(value));
             var expression = Expression.Lambda<Func<T, bool>>(body, parameter);
             return _context.Set<T>().Where(expression).FirstOrDefault();
         }
-        
+
         public List<T> GetAll() {
             return _context.Set<T>().ToList();
         }
 
-        public List<T> GetByCondition(Func<T, bool> conditions) {
-            return _context.Set<T>().Where(conditions).ToList();
-        }
+        //true : asc   false : desc
+        public List<T> GetByCondition(Expression< Func<T, bool>> conditions, Dictionary<string, bool> order =null) {
+            var parameter = Expression.Parameter(typeof (T), "x");
+            if(order == null || order.Count == 0) return _context.Set<T>().Where(conditions).ToList<T>();
 
-        public List<T> GetByCondition(Dictionary<string, object> conditions) {
-            if(conditions == null || conditions.Count == 0) {
-                return _context.Set<T>().ToList();
+            var keys = order.Keys.ToList();
+            var list = _context.Set<T>().Where(conditions);
+
+            for (int i = 0, len = keys.Count; i < len; i ++) {
+                var lamda =
+                    Expression.Lambda<Func<T, object>>(
+                        Expression.Convert(Expression.Property(parameter, keys[i]), typeof (object)), parameter);
+                
+                if (i == 0) {
+                    list = order[keys[i]] ? list?.OrderBy(lamda) : list?.OrderByDescending(lamda);
+                } else {
+                    list = order[keys[i]] ? ((IOrderedQueryable<T>)list).ThenBy(lamda) : ((IOrderedQueryable<T>)list).ThenByDescending(lamda);
+                }
             }
 
-            Expression p = null;
+            return list.ToList();
+        }
+
+        //true : asc   false : desc
+        public List<T> GetPageList(int pageSize, int pageIndex, out int recordCount, Expression<Func<T, bool>> where, Dictionary<string, bool> order) {
             var parameter = Expression.Parameter(typeof(T), "x");
+            var firstNum = (pageSize - 1)*pageIndex;
 
-            foreach(var each in conditions) {
-                var body = Expression.Equal(Expression.Property(parameter, each.Key), Expression.Constant(each.Value));
-                p = p == null ? body : p.AndAlso(body);
+            var keys = order.Keys.ToList();
+            var list = _context.Set<T>().Where(where);
+            recordCount = list.Count();
+
+            for (int i = 0, len = keys.Count; i < len; i++) {
+                var lamda =
+                    Expression.Lambda<Func<T, object>>(
+                        Expression.Convert(Expression.Property(parameter, keys[i]), typeof(object)), parameter);
+
+                Console.WriteLine(lamda.ToString());
+
+                if (i == 0) {
+                    list = order[keys[i]] ? list.OrderBy(lamda) : list.OrderByDescending(lamda);
+                } else {
+                    list = order[keys[i]] ? ((IOrderedQueryable<T>)list).ThenBy(lamda) : ((IOrderedQueryable<T>)list).ThenByDescending(lamda);
+                }
             }
 
-            return _context.Set<T>().Where(Expression.Lambda<Func<T, bool>>(p, parameter)).ToList();
+            return list.Skip(firstNum).Take(pageSize).ToList();
         }
-
-        public List<T> GetByPaged(int firstnum, int pagesize, out int recordcount, Dictionary<string, object> conditions) {
-            recordcount = 0;
-            return _context.Set<T>().ToList();
-        }
-
-        public List<T> GetByPaged(int firstnum, int pagesize, out int recordcount, Func<T, bool> conditions) {
-            recordcount = 0;
-            return _context.Set<T>().ToList();
-        }
-
 
         public void Dispose() {
-            this._context.Dispose();
+            _context.Dispose();
         }
     }
 }
