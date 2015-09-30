@@ -10,6 +10,7 @@ using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using YHCSheng.Bll;
 using YHCSheng.Dal;
+using YHCSheng.Extensions;
 using YHCSheng.Models;
 using YHCSheng.Utils;
 
@@ -32,6 +33,10 @@ namespace YHCSheng.Controllers {
             var txt = reader.ReadToEnd();
             var p = JsonConvert.DeserializeObject<User>(txt);
             var user = _service.Create(p);
+
+            if (Context == null) return CustomJsonResult.Instance.GetSuccess(user);
+            Context.Session.Set<User>("user" + user.Id, user);
+            Console.WriteLine(Context.Session.Get<User>("user" + user.Id).Name);
 
             return CustomJsonResult.Instance.GetSuccess(user);
         }

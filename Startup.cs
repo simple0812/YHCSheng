@@ -6,36 +6,31 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Session;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.DependencyInjection;
 using YHCSheng.Dal;
 using YHCSheng.Filters;
 using YHCSheng.Routers;
-using YHCSheng.Test;
 
 namespace YHCSheng {
     public class Startup {
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv) {
-            //依赖注入
-            var xbuilder = new ContainerBuilder();
-            xbuilder.RegisterType<LoggingService>();
-            xbuilder.RegisterType<CustomerService>();
-            using (var container = xbuilder.Build()) {
-                container.Resolve<CustomerService>();
-            }
-
             GlobalVariables.Init(env, appEnv);
         }
 
         public void Configure(IApplicationBuilder app) {
             app.UseStaticFiles();
             app.Use(next => new TimeRecorderMiddleware(next).Invoke);
+            app.UseSession();
             app.UseMvc(Router.Instance.Route);
         }
 
         public void ConfigureServices(IServiceCollection services) {
-            services.AddScoped<ITodoRepository, TodoRepository>();
-            services.AddSingleton<TestService>();
+            services.AddCaching();
+            services.AddSession();
+            services.ConfigureSession(option => option.IdleTimeout = TimeSpan.FromMinutes(30));
+//            services.Configure<SessionOptions>(option => option.IdleTimeout = TimeSpan.FromMinutes(30));
 
             services.AddMvc();
 
