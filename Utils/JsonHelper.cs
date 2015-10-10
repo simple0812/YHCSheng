@@ -14,7 +14,7 @@ namespace YHCSheng.Utils {
 
         public string SerializeObject(ICollection collection, bool convertFirstLetter = true) {
             if (collection == null) return "";
-            return !convertFirstLetter ? JsonConvert.SerializeObject(collection) : JsonConvert.SerializeObject(ConvertToDictionary(collection));
+            return convertFirstLetter ? JsonConvert.SerializeObject(ConvertToDictionary(collection)) : JsonConvert.SerializeObject(collection);
         }
 
         public Dictionary<string, object> ConvertToDictionary(object obj) {
@@ -35,9 +35,7 @@ namespace YHCSheng.Utils {
                     ignore = attribute.Ignore;
                 }
 
-                if (!ignore) {
-                    dic.Add(key, p.GetValue(obj, null));
-                }
+                if (!ignore) dic.Add(key, p.GetValue(obj, null));
             }
 
             return dic;

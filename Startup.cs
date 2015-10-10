@@ -63,7 +63,7 @@ namespace YHCSheng {
 
             await _next(context);
 
-            var msg = @"method:{1}, url:{0} ->   process time:{2} ms";
+            var msg = @"{1} url:{0}  {2} ms";
             Console.WriteLine(msg, context.Request.Path, context.Request.Method, sw.ElapsedMilliseconds);
         }
     }
