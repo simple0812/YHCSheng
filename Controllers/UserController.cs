@@ -20,7 +20,6 @@ namespace YHCSheng.Controllers {
 
         public UserController() {
             var xbuilder = new ContainerBuilder();
-            xbuilder.RegisterType<ApplicationDbContext>().As<DbContext>();
             xbuilder.RegisterType<EFClient<User>>().As<IDao<User>>();
             xbuilder.RegisterType<UserService>();
             using (var container = xbuilder.Build()) {

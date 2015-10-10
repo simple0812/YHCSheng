@@ -2,20 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using Microsoft.Data.Entity;
 using YHCSheng.Extensions;
 
 namespace YHCSheng.Dal {
     public class EFClient<T> : IDao<T> where T : class {
         private readonly DbContext _context;
+        private readonly Type[] _list = { typeof(ApplicationDbContext), typeof(LogDbContext) };
 
-        public EFClient(DbContext context) {
-            _context = context;
+        public EFClient() {
+            foreach (var each in _list) {
+                foreach (var p in each.GetProperties().Where(p => typeof (DbSet<T>) == p.PropertyType)) {
+                    _context = Activator.CreateInstance(each) as DbContext;
+                    return;
+                }
+            }
+
+            if (null == _context) {
+                throw new Exception("xx");
+            }
         }
 
         public T Save(T entity) {
             _context.Set<T>().Add(entity);
             _context.SaveChanges();
+
             return entity;
         }
 
