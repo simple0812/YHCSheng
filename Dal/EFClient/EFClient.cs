@@ -37,7 +37,12 @@ namespace YHCSheng.Dal {
             if (_context.Entry(entity) == null) return false;
             _context.Entry(entity).State = EntityState.Deleted;
             _context.SaveChanges();
+            return true;
+        }
 
+        public bool Delete(IList<T> entities) {
+            _context.RemoveRange(entities);
+            _context.SaveChanges();
             return true;
         }
 

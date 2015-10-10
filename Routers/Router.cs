@@ -22,7 +22,7 @@ namespace YHCSheng.Routers
             
             opt.Get("api/user", c => c.Action<UserController>(x => x.List()));
             opt.Post("api/user", c => c.Action<UserController>(x => x.Add()));
-            opt.Delete("api/user/{id?}", c => c.Action<UserController>(x => x.Remove(Param<int>.Any)));
+            opt.Delete("api/user", c => c.Action<UserController>(x => x.Remove()));
             opt.Put("api/user", c => c.Action<UserController>(x => x.Update()));
             opt.Post("api/user/portrait", c => c.Action<UserController>(x => x.UploadPortrait(Param<IFormFileCollection>.Any)));
         }

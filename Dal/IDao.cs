@@ -9,6 +9,7 @@ namespace YHCSheng.Dal {
         T Save(T entity);
 
         bool Delete(T entity);
+        bool Delete(IList<T> entities);
         bool DeleteById(int id);
         bool DeleteBy(string key, object value);
 

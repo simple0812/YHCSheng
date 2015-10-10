@@ -39,6 +39,14 @@ namespace YHCSheng.Bll {
             _dao.Delete(entity);
         }
 
+        public void Delete(int[] ids) {
+            IList<T> t = new List<T>();
+            foreach (var each in ids) {
+                t.Add(GetById(each));
+            }
+            _dao.Delete(t);
+        }
+
         public void Delete(int id) {
             _dao.DeleteById(id);
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using Autofac;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
@@ -42,12 +43,17 @@ namespace YHCSheng.Controllers {
 
         public object List() {
             int pageSize, pageIndex;
+            var keyword = Request.Query.Get("keyword");
             pageSize = int.TryParse(Request.Query.Get("pageSize"), out pageSize) ? pageSize : 1;
             pageIndex = int.TryParse(Request.Query.Get("pageIndex"), out pageIndex) ? pageIndex : 10;
             var recordCount = 0;
             var order = new Dictionary<string, bool> {{"Id", true}};
 
-            var users = _service.GetPageList(pageSize, pageIndex,out recordCount, null, order).ToList();
+            Expression<Func<User, bool>> p = null;
+            if (!string.IsNullOrEmpty(keyword))
+                p = user => user.Name.IndexOf(keyword, StringComparison.Ordinal) > -1;
+
+            var users = _service.GetPageList(pageSize, pageIndex,out recordCount, p, order).ToList();
             return CustomJsonResult.Instance.PageSuccess(users, recordCount);
         }
 
@@ -55,7 +61,7 @@ namespace YHCSheng.Controllers {
             var reader = new StreamReader(Request.Body);
             var txt = reader.ReadToEnd();
             var user = JsonConvert.DeserializeObject<User>(txt);
-
+            
             if (user != null && user.Id > 0) {
                 _service.Update(user);
             }
@@ -63,11 +69,13 @@ namespace YHCSheng.Controllers {
             return CustomJsonResult.Instance.GetSuccess(user);
         }
 
-        public string Remove(int id) {
+        public string Remove() {
             var reader = new StreamReader(Request.Body);
             var txt = reader.ReadToEnd();
             Console.WriteLine(txt);
-            return "delete success";
+
+            _service.Delete(JsonConvert.DeserializeObject<int[]>(txt));
+            return CustomJsonResult.Instance.GetSuccess("delete success");
         }
 
         public IActionResult Index() {

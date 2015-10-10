@@ -15,6 +15,7 @@ define([
         $scope.selectItems = [];
 
         $scope.pageCondition = {
+            keyword : '',
             pageSize: 10,
             pageIndex: 1
         };

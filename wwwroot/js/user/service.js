@@ -4,14 +4,15 @@ define([
     var moduleSvc =  angular.module('moduleSvc', []);
     var apiUrl = '/api/user';
 
+    //$http参数 params -> query data -> body
     moduleSvc.factory('svc', [
         '$http', function($http) {
             return {
                 delete: function(ids) {
                     var def = $.Deferred();
                     var promise = def.promise();
-
-                    $http.delete(apiUrl, ids).success(function(json) {
+                    console.log(ids, typeof ids);
+                    $http.delete(apiUrl, {data : ids}).success(function (json) {
                         if (!json.code || json.code == 'error') return def.reject(json ? json.message : '未知的错误');
                         def.resolve(json.result);
                     }).error(function(data, status, headers, config) {
