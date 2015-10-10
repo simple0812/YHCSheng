@@ -41,13 +41,14 @@ namespace YHCSheng.Controllers {
         }
 
         public object List() {
-            int id;
-            id = int.TryParse(Request.Query.Get("id"), out id) ? id : 0;
-            var name = Request.Query.Get("name");
-            var conditions = new Dictionary<string, bool> {{"Id", true}, {"Name", true}};
+            int pageSize, pageIndex;
+            pageSize = int.TryParse(Request.Query.Get("pageSize"), out pageSize) ? pageSize : 1;
+            pageIndex = int.TryParse(Request.Query.Get("pageIndex"), out pageIndex) ? pageIndex : 10;
+            var recordCount = 0;
+            var order = new Dictionary<string, bool> {{"Id", true}};
 
-            var users = _service.GetByCondition(x => true, conditions).ToList();
-            return CustomJsonResult.Instance.PageSuccess(users);
+            var users = _service.GetPageList(pageSize, pageIndex,out recordCount, null, order).ToList();
+            return CustomJsonResult.Instance.PageSuccess(users, recordCount);
         }
 
         public string Update() {

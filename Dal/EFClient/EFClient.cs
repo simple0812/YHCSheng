@@ -15,8 +15,10 @@ namespace YHCSheng.Dal {
             foreach (var each in _list) {
                 foreach (var p in each.GetProperties().Where(p => typeof (DbSet<T>) == p.PropertyType)) {
                     _context = Activator.CreateInstance(each) as DbContext;
-                    return;
+                    break;
                 }
+
+                if(null != _context) break;
             }
 
             if (null == _context) {
@@ -80,7 +82,7 @@ namespace YHCSheng.Dal {
         public List<T> GetByCondition(Expression< Func<T, bool>> conditions, Dictionary<string, bool> order =null) {
             var parameter = Expression.Parameter(typeof (T), "x");
             if(order == null || order.Count == 0) return _context.Set<T>().Where(conditions).ToList<T>();
-
+            if (null == conditions) conditions = arg => true;
             var keys = order.Keys.ToList();
             var list = _context.Set<T>().Where(conditions);
 
@@ -102,10 +104,11 @@ namespace YHCSheng.Dal {
         //true : asc   false : desc
         public List<T> GetPageList(int pageSize, int pageIndex, out int recordCount, Expression<Func<T, bool>> where, Dictionary<string, bool> order) {
             var parameter = Expression.Parameter(typeof(T), "x");
-            var firstNum = (pageSize - 1)*pageIndex;
+            var firstNum = (pageIndex - 1) * pageSize;
 
             var keys = order.Keys.ToList();
-            var list = _context.Set<T>().Where(where);
+            
+            var list = null == where ? _context.Set<T>() : _context.Set<T>().Where(where);
             recordCount = list.Count();
 
             for (int i = 0, len = keys.Count; i < len; i++) {

@@ -423,7 +423,7 @@ Pager.prototype.handleTextChanged = function () {
 
 
 if ( typeof define === "function" && define.amd ) {
-    define(['lib/hashChange'], function () { return Pager; } );
+    define(['hashChange'], function () { return Pager; } );
 }
 
 

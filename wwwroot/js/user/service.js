@@ -47,10 +47,10 @@ define([
                     return promise;
                 },
 
-                retrieve: function() {
+                retrieve: function(condition) {
                     var def = $.Deferred();
                     var promise = def.promise();
-                    $http.get(apiUrl, { params: query_list }).success(function(json) {
+                    $http.get(apiUrl, { params: condition }).success(function (json) {
 
                         if (!json) return def.reject('未知的错误');
                         if (!json.code || json.code == 'error') return def.reject(json.message);
@@ -63,7 +63,7 @@ define([
                     return promise;
                 },
 
-                pageUsers: function() {
+                getPaged: function() {
                     var def = $.Deferred();
                     var promise = def.promise();
 

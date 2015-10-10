@@ -7,8 +7,15 @@
  * Dual licensed under the MIT (MIT-LICENSE.txt)
  * and GPL (GPL-LICENSE.txt) licenses.
  */
-(function ($) {
-
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        define([
+            'jquery'
+        ], factory);
+    } else {
+        factory(window.jQuery);
+    }
+}(function ($) {
     $.fn.extend({
         hashchange: function (callback) { this.bind('hashchange', callback) },
         openOnClick: function (href) {
@@ -118,5 +125,6 @@
         if (idoc.location.hash != hash) idoc.location.hash = hash;
     }
 
-})(jQuery);
+}));
+
 

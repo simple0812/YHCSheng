@@ -8,12 +8,18 @@ define([
     moduleListCtrl.controller('controller', ['$scope', '$window', 'svc', controller]);
 
     function controller($scope, $window, svc) {
-        showList();
         $scope.models = [];
         $scope.model = {};
         $scope.saveType = ''; //弹出框保存model模式 : create , update
         $scope.selectAllStatus = false;
         $scope.selectItems = [];
+
+        $scope.pageCondition = {
+            pageSize: 10,
+            pageIndex: 1
+        };
+
+        showList();
 
         $scope.$on('$destroy', function() {
             console.log($scope.models.length + '..');
@@ -47,8 +53,7 @@ define([
             } else {
                 $scope.selectItems = [];
             }
-        }
-
+        };
         $scope.remove = function(scope, obj) {
             if (!confirm('确认删除项目吗？')) return;
 
@@ -79,22 +84,19 @@ define([
 
         $scope.save = function(scope, obj) {
             var mothodMap = {
-                'create' : create,
-                'update' : update
-            }
-
-            if(!mothodMap[$scope.saveType]) return console.log('saveType is  invalid');
+                'create': create,
+                'update': update
+            };
+            if (!mothodMap[$scope.saveType]) return console.log('saveType is  invalid');
 
             mothodMap[$scope.saveType]();
-        }
-
-        $scope.search = function(obj) {
-            query_list.month = $('#searchInput').val();
+        };
+        $scope.search = function() {
             showList();
         };
 
         function showList() {
-            svc.retrieve()
+            svc.retrieve($scope.pageCondition)
                 .done(function(json) {
                     $scope.models = json.result.entities || [];
                     $('.userList').show();
@@ -115,10 +117,10 @@ define([
         function update() {
             svc.update($scope.model).done(function() {
                 var scope = $('#user').scope();
-                var model = _.find(scope.models, function(item) {return item.id === $scope.model.id;});
+                var model = _.find(scope.models, function(item) { return item.id === $scope.model.id; });
 
                 for (var each in $scope.model)
-                    model[each] = $scope.model[each];
+                    if ($scope.model.hasOwnProperty(each))model[each] = $scope.model[each];
 
                 $scope.$broadcast('postSave');
             }).fail(function() {

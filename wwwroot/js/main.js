@@ -11,11 +11,14 @@ define([], function() {
             'validator': 'lib/validator',
             'backbone': 'lib/backbone',
             'pager': 'lib/pager',
+            'hashChange': 'lib/hashChange',
             'jquery': 'lib/jquery',
             'jquery.ui.widget': 'lib/jquery.ui.widget',
             'jquery.fileupload': 'lib/jquery.fileupload',
             'datetimepicker': 'lib/bootstrap-datetimepicker',
-            'md5': 'md5'
+            'md5': 'md5',
+            'commonDirect': 'common/directive',
+            'commonFilter': 'common/filter'
         },
         shim: {
             'angular': {
@@ -32,6 +35,14 @@ define([], function() {
                 exports: 'angular-route',
                 deps: ['jquery', 'bootstrap']
             },
+            'hashChange': {
+                exports: 'hashChange',
+                deps: ['jquery']
+            },
+            'pager': {
+                exports: 'pager',
+                deps: ['hashChange']
+            },
             'moment': {
                 exports: 'moment'
             },
@@ -44,8 +55,21 @@ define([], function() {
                 exports: 'extension',
                 deps: ['jquery']
             },
-            'pager': {
-                exports: 'pager'
+            'commonDirect': {
+                exports: 'commonDirect',
+                deps: [
+                    'angular',
+                    'common',
+                    'datetimepicker',
+                    'jquery.fileupload'
+                ]
+            },
+            'commonFilter': {
+                exports: 'commonFilter',
+                deps: [
+                    'angular',
+                    'moment'
+                ]
             },
             'jquery.fileupload': {
                 exports: 'jquery.fileupload',
