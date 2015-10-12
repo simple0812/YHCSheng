@@ -27,7 +27,7 @@
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta7",
     "Newtonsoft.Json": "7.0.1",
     "StackExchange.Redis": "1.0.481",
-    "Unity": "3.5.1405-prerelease"
+    "NHibernate": "4.0.4.4000"
   },
 
   "commands": {

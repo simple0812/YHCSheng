@@ -146,6 +146,15 @@
           "lib/net45/EntityFramework.SqlServer.dll": {}
         }
       },
+      "Iesi.Collections/4.0.0.4000": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Iesi.Collections.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Iesi.Collections.dll": {}
+        }
+      },
       "Ix-Async/1.2.5": {
         "type": "package",
         "frameworkAssemblies": [
@@ -1816,6 +1825,18 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
+      "NHibernate/4.0.4.4000": {
+        "type": "package",
+        "dependencies": {
+          "Iesi.Collections": "[4.0, 5.0)"
+        },
+        "compile": {
+          "lib/net40/NHibernate.dll": {}
+        },
+        "runtime": {
+          "lib/net40/NHibernate.dll": {}
+        }
+      },
       "Remotion.Linq/2.0.0-beta-002": {
         "type": "package",
         "compile": {
@@ -1984,19 +2005,6 @@
         "runtime": {
           "lib/net45/_._": {}
         }
-      },
-      "Unity/3.5.1405-prerelease": {
-        "type": "package",
-        "compile": {
-          "lib/net45/Microsoft.Practices.Unity.Configuration.dll": {},
-          "lib/net45/Microsoft.Practices.Unity.dll": {},
-          "lib/net45/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.Practices.Unity.Configuration.dll": {},
-          "lib/net45/Microsoft.Practices.Unity.dll": {},
-          "lib/net45/Microsoft.Practices.Unity.RegistrationByConvention.dll": {}
-        }
       }
     }
   },
@@ -2110,6 +2118,17 @@
         "lib/net45/EntityFramework.SqlServer.dll",
         "lib/net45/EntityFramework.SqlServer.xml",
         "repo.json"
+      ]
+    },
+    "Iesi.Collections/4.0.0.4000": {
+      "type": "package",
+      "sha512": "fLQKwZovMOhjte47Op+2YWLpmncQ/siA7hOdmG2eBLTFjp81s+gGkkGnDetOhBqYnmWK8g2kyx1DP9uNaJ68Ew==",
+      "files": [
+        "Iesi.Collections.4.0.0.4000.nupkg",
+        "Iesi.Collections.4.0.0.4000.nupkg.sha512",
+        "Iesi.Collections.nuspec",
+        "lib/net40/Iesi.Collections.dll",
+        "lib/net40/Iesi.Collections.xml"
       ]
     },
     "Ix-Async/1.2.5": {
@@ -3497,6 +3516,30 @@
         "tools/install.ps1"
       ]
     },
+    "NHibernate/4.0.4.4000": {
+      "type": "package",
+      "sha512": "Me3y8Q1NPEfiTRuisgayLs5nm7J4hoGhvXT/hD5w78WajPFfsb+qNP2ld+bNimpvW0U/BDSaZAUS0FKl5+ty/w==",
+      "files": [
+        "ConfigurationTemplates/FireBird.cfg.xml",
+        "ConfigurationTemplates/MSSQL.cfg.xml",
+        "ConfigurationTemplates/MySql.cfg.xml",
+        "ConfigurationTemplates/Oracle.cfg.xml",
+        "ConfigurationTemplates/PostgreSQL.cfg.xml",
+        "ConfigurationTemplates/SQLite.cfg.xml",
+        "ConfigurationTemplates/SybaseASE.cfg.xml",
+        "ConfigurationTemplates/SybaseSQLAnywhere.cfg.xml",
+        "lib/net40/NHibernate.dll",
+        "lib/net40/NHibernate.xml",
+        "NHibernate.4.0.4.4000.nupkg",
+        "NHibernate.4.0.4.4000.nupkg.sha512",
+        "NHibernate.license.txt",
+        "NHibernate.nuspec",
+        "NHibernate.readme.html",
+        "NHibernate.releasenotes.txt",
+        "nhibernate-configuration.xsd",
+        "nhibernate-mapping.xsd"
+      ]
+    },
     "Remotion.Linq/2.0.0-beta-002": {
       "type": "package",
       "sha512": "tsCmHSCMGoI2Zs55BuOzJP74ciEdVTvo0qQnr1VLVNCn5vm2qAWkF+pvuTW9ZwA/NJKzjw/8bGK7dDK/Ng/9Ow==",
@@ -4136,33 +4179,6 @@
         "System.Threading.4.0.0.nupkg.sha512",
         "System.Threading.nuspec"
       ]
-    },
-    "Unity/3.5.1405-prerelease": {
-      "type": "package",
-      "sha512": "sGS9QDLCReGtQsvsLdP+PFf6khWkHeiV7juV9Wi0hRRhCoEXhCwWqKEbrvzf/fvOuOfkb9QJ816yb4iexV0cnQ==",
-      "files": [
-        "lib/net45/Microsoft.Practices.Unity.Configuration.dll",
-        "lib/net45/Microsoft.Practices.Unity.Configuration.XML",
-        "lib/net45/Microsoft.Practices.Unity.dll",
-        "lib/net45/Microsoft.Practices.Unity.RegistrationByConvention.dll",
-        "lib/net45/Microsoft.Practices.Unity.RegistrationByConvention.XML",
-        "lib/net45/Microsoft.Practices.Unity.xml",
-        "lib/portable-net45+wp80+win8+wpa81+MonoAndroid10+MonoTouch10/Microsoft.Practices.Unity.dll",
-        "lib/portable-net45+wp80+win8+wpa81+MonoAndroid10+MonoTouch10/Microsoft.Practices.Unity.xml",
-        "lib/win8/Microsoft.Practices.Unity.dll",
-        "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.dll",
-        "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.pri",
-        "lib/win8/Microsoft.Practices.Unity.RegistrationByConvention.XML",
-        "lib/win8/Microsoft.Practices.Unity.xml",
-        "lib/wp80/Microsoft.Practices.Unity.dll",
-        "lib/wp80/Microsoft.Practices.Unity.RegistrationByConvention.dll",
-        "lib/wp80/Microsoft.Practices.Unity.RegistrationByConvention.XML",
-        "lib/wp80/Microsoft.Practices.Unity.xml",
-        "Unity.3.5.1405-prerelease.nupkg",
-        "Unity.3.5.1405-prerelease.nupkg.sha512",
-        "Unity.nuspec",
-        "UnityConfiguration30.xsd"
-      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -4190,7 +4206,7 @@
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0-beta7",
       "Newtonsoft.Json >= 7.0.1",
       "StackExchange.Redis >= 1.0.481",
-      "Unity >= 3.5.1405-prerelease"
+      "NHibernate >= 4.0.4.4000"
     ],
     "DNX,Version=v4.5.1": []
   }

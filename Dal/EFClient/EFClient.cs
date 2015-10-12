@@ -13,16 +13,16 @@ namespace YHCSheng.Dal {
 
         public EFClient() {
             foreach (var each in _list) {
-                foreach (var p in each.GetProperties().Where(p => typeof (DbSet<T>) == p.PropertyType)) {
-                    _context = Activator.CreateInstance(each) as DbContext;
-                    break;
-                }
+                var x = each.GetProperties().First(p => typeof (DbSet<T>) == p.PropertyType);
 
-                if(null != _context) break;
+                if (null == x) continue;
+
+                _context = Activator.CreateInstance(each) as DbContext;
+                break;
             }
 
             if (null == _context) {
-                throw new Exception("xx");
+                throw new Exception("create dbcontext failed");
             }
         }
 
