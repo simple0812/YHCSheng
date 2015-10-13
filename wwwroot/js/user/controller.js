@@ -20,7 +20,7 @@ define([
             pageIndex: 1
         };
 
-        showList();
+//        showList();
 
         $scope.$on('$destroy', function() {
             console.log($scope.models.length + '..');

@@ -18,19 +18,19 @@ function pagerDelegate(obj, method, mode) {
 }
 
 function Pager(pageSize, recordCount, pageindex, _condition, callBack) {
-    this.pagesize = pageSize;
+    this.pageSize = pageSize;
     this.recordcount = recordCount;
-    this.pageindex = pageindex;
-    this.temppage = this.pageindex;
+    this.pageIndex = pageindex;
+    this.temppage = this.pageIndex;
     this.callback = callBack;
     this.condition = _condition;
 
     this.interval = 3;
     this.absdiff = (this.interval - 1) / 2;
 
-    this.pagecount = Math.ceil(this.recordcount / this.pagesize);
-    if (this.pageindex > this.pagecount)
-        this.pageindex = this.pagecount;
+    this.pagecount = Math.ceil(this.recordcount / this.pageSize);
+    if (this.pageIndex > this.pagecount)
+        this.pageIndex = this.pagecount;
 
     this.create = function () {
         return function () {
@@ -42,8 +42,8 @@ function Pager(pageSize, recordCount, pageindex, _condition, callBack) {
     if (this.pagecount == 0)
         this.pagecount = 1;
 
-    if (this.pageindex == 0)
-        this.pageindex = 1;
+    if (this.pageIndex == 0)
+        this.pageIndex = 1;
 
     this.flag = false;
     var aaaa = this;
@@ -81,7 +81,7 @@ Pager.prototype.renderHtml = function () {
     var _container = arguments[0];
     _container.innerHTML = "";
     _container.appendChild(document.createTextNode(String.format("共{0}条数据 {1} / {2}页 ",
-        this.recordcount, this.pageindex, this.pagecount)));
+        this.recordcount, this.pageIndex, this.pagecount)));
 
     // 第一页
     var firstA = document.createElement("A");
@@ -144,9 +144,9 @@ Pager.prototype.renderNumberStyleHtml = function () {
     var allStrong2 = $("<strong></strong>").get(0);
 
     allStrong1.appendChild(document.createTextNode(String.format(" {2} ",
-        this.recordcount, this.pageindex, this.pagecount)));
+        this.recordcount, this.pageIndex, this.pagecount)));
     allStrong2.appendChild(document.createTextNode(String.format(" {0} ",
-        this.recordcount, this.pageindex, this.pagecount)));
+        this.recordcount, this.pageIndex, this.pagecount)));
     _spanele.appendChild(document.createTextNode("共"));
     _spanele.appendChild(allStrong1);
     _spanele.appendChild(document.createTextNode("页"));
@@ -182,11 +182,11 @@ Pager.prototype.renderNumberStyleHtml = function () {
     _containerUl.appendChild(document.createTextNode(" "));
 
     // 此处开始渲染中间页码串
-    if (this.pageindex + this.absdiff > this.interval && this.pageindex + this.absdiff <= this.pagecount)
-        this.generateNumsText(this.pageindex - this.absdiff, this.pageindex + this.absdiff, _containerUl);
-    else if (this.pageindex + this.absdiff <= this.interval)
+    if (this.pageIndex + this.absdiff > this.interval && this.pageIndex + this.absdiff <= this.pagecount)
+        this.generateNumsText(this.pageIndex - this.absdiff, this.pageIndex + this.absdiff, _containerUl);
+    else if (this.pageIndex + this.absdiff <= this.interval)
         this.generateNumsText(1, this.interval, _containerUl);
-    else if (this.pageindex + this.absdiff > this.pagecount)
+    else if (this.pageIndex + this.absdiff > this.pagecount)
         this.generateNumsText(this.pagecount - this.interval + 1, this.pagecount, _containerUl);
 
     // 下一页
@@ -227,7 +227,7 @@ Pager.prototype.renderNumberStyleHtml = function () {
     txtGo.setAttribute("name", "gopage");
     txtGo.setAttribute("id", "gopage");
     txtGo.setAttribute("size", "2");
-    txtGo.setAttribute("value", this.pageindex);
+    txtGo.setAttribute("value", this.pageIndex);
     txtGo.onchange = pagerDelegate(this, this.handleTextChanged, { "objRef": txtGo });
 
     txtSpan.appendChild(txtGo);
@@ -253,11 +253,11 @@ Pager.prototype.renderSimpleNumberStyleHtml = function () {
     var _containerUl = document.createElement("<span>");
 
     // 此处开始渲染中间页码串
-    if (this.pageindex + this.absdiff > this.interval && this.pageindex + this.absdiff <= this.pagecount)
-        this.generateNumsText_1(this.pageindex - this.absdiff, this.pageindex + this.absdiff, _containerUl);
-    else if (this.pageindex + this.absdiff <= this.interval)
+    if (this.pageIndex + this.absdiff > this.interval && this.pageIndex + this.absdiff <= this.pagecount)
+        this.generateNumsText_1(this.pageIndex - this.absdiff, this.pageIndex + this.absdiff, _containerUl);
+    else if (this.pageIndex + this.absdiff <= this.interval)
         this.generateNumsText_1(1, this.interval, _containerUl);
-    else if (this.pageindex + this.absdiff > this.pagecount)
+    else if (this.pageIndex + this.absdiff > this.pagecount)
         this.generateNumsText_1(this.pagecount - this.interval + 1, this.pagecount, _containerUl);
 
     // 上一页
@@ -290,7 +290,7 @@ Pager.prototype.renderSimpleNumberStyleHtml = function () {
 
 
     _containerSpan.appendChild(document.createTextNode(String.format("共{2}页 ",
-        this.recordcount, this.pageindex, this.pagecount)));
+        this.recordcount, this.pageIndex, this.pagecount)));
 
     _container.appendChild(_containerSpan);
     _container.appendChild(_containerUl);
@@ -302,43 +302,43 @@ Pager.prototype.moveIndicator = function () {
 
     switch (arguments[0].mode) {
         case "first":
-            this.pageindex = 1;
+            this.pageIndex = 1;
 
             break;
         case "previous":
-            this.pageindex -= 1;
+            this.pageIndex -= 1;
 
-            if (this.pageindex < 1)
-                this.pageindex = 1;
+            if (this.pageIndex < 1)
+                this.pageIndex = 1;
 
             break;
         case "next":
-            this.pageindex += 1;
+            this.pageIndex += 1;
 
-            if (this.pageindex > this.pagecount)
-                this.pageindex = this.pagecount;
+            if (this.pageIndex > this.pagecount)
+                this.pageIndex = this.pagecount;
 
             break;
         case "last":
-            this.pageindex = this.pagecount;
+            this.pageIndex = this.pagecount;
 
             break;
         case "nums":
-            this.pageindex = arguments[0].val;
+            this.pageIndex = arguments[0].val;
 
             break;
         case "inputnums":
-            this.pageindex = this.temppage;
+            this.pageIndex = this.temppage;
 
             break;
     }
 
-    if (this.condition && this.condition.pageindex) {
+    if (this.condition && this.condition.pageIndex) {
         this.flag = true;
 
-        this.condition.pageindex = this.pageindex;
+        this.condition.pageIndex = this.pageIndex;
 
-        var pageHash = "#" + this.pref + "page" + this.pageindex.toString();
+        var pageHash = "#" + this.pref + "page" + this.pageIndex.toString();
 
         window.navigator.userAgent.toLowerCase().indexOf('msie') > -1 ? $.locationHash(pageHash) : location.hash = pageHash;
     }
@@ -347,15 +347,15 @@ Pager.prototype.moveIndicator = function () {
 Pager.prototype.setRecordCount = function () {
     this.recordcount = arguments[0];
 
-    this.pagecount = Math.ceil(this.recordcount / this.pagesize);
-    if (this.pageindex > this.pagecount)
-        this.pageindex = this.pagecount;
+    this.pagecount = Math.ceil(this.recordcount / this.pageSize);
+    if (this.pageIndex > this.pagecount)
+        this.pageIndex = this.pagecount;
 
     if (this.pagecount == 0)
         this.pagecount = 1;
 
-    if (this.pageindex == 0)
-        this.pageindex = 1;
+    if (this.pageIndex == 0)
+        this.pageIndex = 1;
 }
 
 Pager.prototype.setInterval = function () {
@@ -375,7 +375,7 @@ Pager.prototype.generateNumsText = function () {
         var numsLi = $("<li></li>").get(0);
         var numsA = $("<a></a>").get(0);
 
-        if (i == this.pageindex) {
+        if (i == this.pageIndex) {
             $(numsLi).addClass("thisclass");
             numsA.appendChild(document.createTextNode(String.format(" {0} ", i)));
         }
@@ -401,7 +401,7 @@ Pager.prototype.generateNumsText_1 = function () {
     for (var i = arguments[0]; i <= arguments[1]; i++) {
 
         var numsA = $("<a></a>").get(0);
-        if (i == this.pageindex) {
+        if (i == this.pageIndex) {
             $(numsA).addClass("seleced");
 
             numsA.appendChild(document.createTextNode(String.format(" {0} ", i)));
