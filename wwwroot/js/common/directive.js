@@ -43,7 +43,6 @@ define([
 		});
 
     commonDirect.directive('pager', ['svc', function (svc) {
-        console.log('xxxx');
         return {
             priority: 0,
             template: '',
@@ -51,23 +50,31 @@ define([
             transclude: false,
             restrict: 'A',
             scope: {},
-            link: function postLink($scope, iElement, iAttrs, ctrl) {
-                var pager = new Pager($scope.$parent.pageCondition.pageSize, 0, 1, $scope.$parent.pageCondition, showList, -1);
-                function showList() {
-                    pager.moveIndicator(arguments[0]);
-                    svc.retrieve(pager.condition)
+            controller: function ($scope, $element, $attrs) {
+                $scope.showList = function () {
+                    $scope.pager.moveIndicator(arguments[0]);
+                    svc.retrieve($scope.pager.condition)
                         .done(function (json) {
                             $scope.$parent.models = json.result.entities || [];
                             $('.userList').show();
-                            pager.setRecordCount(json.result.total);
-                            pager.renderNumberStyleHtml($(iElement).get(0));
+                            $scope.pager.setRecordCount(json.result.total);
+                            $scope.pager.renderNumberStyleHtml($($element).get(0));
                         }).fail(function () {
                             console.log('数据获取失败');
                         });
                 }
 
-                pager.renderNumberStyleHtml($(iElement).get(0));
-                showList({ mode: 'nums', val: 1 });
+                $scope.pager = new Pager($scope.$parent.pageCondition.pageSize, 0, 1, $scope.$parent.pageCondition, $scope.showList, -1);
+                $scope.$on('pager', function () {
+                    setTimeout(function () {
+                        $scope.showList({ mode: 'nums', val: 1 });
+                    });
+                });
+            },
+
+            link: function postLink($scope, iElement, iAttrs, ctrl) {
+                $scope.pager.renderNumberStyleHtml($(iElement).get(0));
+                $scope.showList({ mode: 'nums', val: 1 });
             }
         };
     }]);
