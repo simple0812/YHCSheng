@@ -57,7 +57,6 @@ define([
             if (!confirm('确认删除项目吗？')) return;
 
             svc.delete([scope.model.id]).done(function() {
-                //                showList();
                 $scope.$broadcast('pager');
             }).fail(function(msg) {
                 common.popBy(obj, msg);
@@ -69,7 +68,6 @@ define([
             if (!confirm('确认删除选中的项目吗？')) return '';
 
             svc.delete($scope.selectItems).done(function() {
-                //showList();
                 $scope.$broadcast('pager');
             }).fail(function(msg) {
                 common.popBy(obj, msg);
@@ -92,21 +90,11 @@ define([
 
             mothodMap[$scope.saveType]();
         };
+
         $scope.search = function () {
             $scope.pageCondition.pageIndex = 1;
-            //showList();
             $scope.$broadcast('pager');
         };
-
-//        function showList() {
-//            svc.retrieve($scope.pageCondition)
-//                .done(function(json) {
-//                    $scope.models = json.result.entities || [];
-//                    $('.userList').show();
-//                }).fail(function() {
-//                    console.log('数据获取失败');
-//                });
-//        }
 
         function create() {
             svc.create($scope.model).done(function(p) {
