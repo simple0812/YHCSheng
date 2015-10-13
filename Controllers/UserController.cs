@@ -43,9 +43,9 @@ namespace YHCSheng.Controllers {
 
         public object List() {
             int pageSize, pageIndex;
-            var keyword = Request.Query.Get("keyword");
-            pageSize = int.TryParse(Request.Query.Get("pageSize"), out pageSize) ? pageSize : 1;
-            pageIndex = int.TryParse(Request.Query.Get("pageIndex"), out pageIndex) ? pageIndex : 10;
+            var keyword = Request.Query["keyword"];
+            pageSize = int.TryParse(Request.Query["pageSize"], out pageSize) ? pageSize : 10;
+            pageIndex = int.TryParse(Request.Query["pageIndex"], out pageIndex) ? pageIndex : 1;
             var recordCount = 0;
             var order = new Dictionary<string, bool> {{"Id", true}};
 
