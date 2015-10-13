@@ -43,9 +43,7 @@ namespace YHCSheng {
                 options.Filters.Add(typeof (ExceptionFilter));
             });
 
-            services.AddEntityFramework()
-                .AddSqlServer()
-                .AddDbContext<ApplicationDbContext>();
+            services.AddEntityFramework().AddSqlServer().AddDbContext<ApplicationDbContext>();
         }
     }
 
