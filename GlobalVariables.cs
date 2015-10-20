@@ -15,7 +15,7 @@ public static class GlobalVariables {
     public static string FileServer => "http://localhost:3000/FilePath/";
     
     public static void Init(IHostingEnvironment env, IApplicationEnvironment appEnv) {
-        var builder = new ConfigurationBuilder(appEnv.ApplicationBasePath)
+        var builder = new ConfigurationBuilder()
             .AddJsonFile("config.json")
             .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
         builder.AddEnvironmentVariables();

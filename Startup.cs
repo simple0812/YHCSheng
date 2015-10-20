@@ -29,8 +29,7 @@ namespace YHCSheng {
         public void ConfigureServices(IServiceCollection services) {
             services.AddCaching();
             services.AddSession();
-            services.ConfigureSession(option => option.IdleTimeout = TimeSpan.FromMinutes(30));
-//            services.Configure<SessionOptions>(option => option.IdleTimeout = TimeSpan.FromMinutes(30));
+            services.Configure<SessionOptions>(option => option.IdleTimeout = TimeSpan.FromMinutes(30));
 
             services.AddMvc();
 

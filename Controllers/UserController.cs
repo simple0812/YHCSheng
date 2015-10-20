@@ -34,9 +34,9 @@ namespace YHCSheng.Controllers {
             var p = JsonConvert.DeserializeObject<User>(txt);
             var user = _service.Create(p);
 
-            if (Context == null) return CustomJsonResult.Instance.GetSuccess(user);
-            Context.Session.Set<User>("user" + user.Id, user);
-            Console.WriteLine(Context.Session.Get<User>("user" + user.Id).Name);
+            if (HttpContext == null) return CustomJsonResult.Instance.GetSuccess(user);
+            HttpContext.Session.Set<User>("user" + user.Id, user);
+            Console.WriteLine(HttpContext.Session.Get<User>("user" + user.Id).Name);
 
             return CustomJsonResult.Instance.GetSuccess(user);
         }
@@ -79,10 +79,11 @@ namespace YHCSheng.Controllers {
         }
 
         public IActionResult Index() {
+            Console.WriteLine("xxx");
             return View();
         }
 
-        public object UploadPortrait(IList<IFormFile> portraits) {
+        public object UploadPortrait(IFormFileCollection portraits) {
             if (portraits.Count == 0) {
                 return CustomJsonResult.Instance.GetError("请选择需要上传的文件");
             }
