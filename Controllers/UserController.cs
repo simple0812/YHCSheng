@@ -79,7 +79,6 @@ namespace YHCSheng.Controllers {
         }
 
         public IActionResult Index() {
-            Console.WriteLine("xxx");
             return View();
         }
 
