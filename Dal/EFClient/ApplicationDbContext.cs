@@ -1,4 +1,5 @@
 using Microsoft.Data.Entity;
+using Microsoft.Extensions.PlatformAbstractions;
 
 using YHCSheng.Models;
 
@@ -15,7 +16,8 @@ namespace YHCSheng.Dal
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            optionsBuilder.UseSqlServer(GlobalVariables.DefaultConnectionString);
+            //optionsBuilder.u
+            //optionsBuilder.UseSqlServer(GlobalVariables.DefaultConnectionString);
             base.OnConfiguring(optionsBuilder);
         }
 

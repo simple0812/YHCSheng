@@ -1,8 +1,7 @@
 using Microsoft.Framework.Configuration;
-using Microsoft.Framework.Configuration.Json;
-using Microsoft.Dnx.Runtime;
 using Microsoft.AspNet.Hosting;
 using System.IO;
+using Microsoft.Extensions.PlatformAbstractions;
 
 public static class GlobalVariables {
     public static IConfiguration Configuration {get; private set;}

@@ -28,3 +28,14 @@
 二、坑
 namespace修改 beta5_beta7.png
 ********************beta7***************************
+
+
+//.net版本管理
+dnvm list
+dnvm upgrade
+
+//.net包管理器
+dnu restore
+dnu publish
+
+//工具

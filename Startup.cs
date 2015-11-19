@@ -1,18 +1,17 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Autofac;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Session;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.DependencyInjection;
 using YHCSheng.Dal;
 using YHCSheng.Filters;
 using YHCSheng.Routers;
-using StackExchange.Redis;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Framework.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace YHCSheng
 {
@@ -31,7 +30,7 @@ namespace YHCSheng
             app.UseMvc(Router.Instance.Route);
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection services)
         {
             services.Configure<SessionOptions>(option => option.IdleTimeout = TimeSpan.FromMinutes(30));
             services.AddCaching();
@@ -49,7 +48,12 @@ namespace YHCSheng
                 options.Filters.Add(typeof(ExceptionFilter));
             });
 
-            services.AddEntityFramework().AddSqlServer().AddDbContext<ApplicationDbContext>();
+
+            services.AddEntityFramework();
+            services.Configure<ApplicationDbContext>(options => {
+            });
+
+            //services.AddEntityFramework().AddSqlServer().AddDbContext<ApplicationDbContext>();
         }
     }
 
