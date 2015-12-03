@@ -16,8 +16,7 @@ namespace YHCSheng.Dal
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            //optionsBuilder.u
-            //optionsBuilder.UseSqlServer(GlobalVariables.DefaultConnectionString);
+            optionsBuilder.UseSqlServer(GlobalVariables.DefaultConnectionString);
             base.OnConfiguring(optionsBuilder);
         }
 

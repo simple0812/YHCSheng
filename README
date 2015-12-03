@@ -39,3 +39,8 @@ dnu restore
 dnu publish
 
 //工具
+
+*************************rc1-final**********************************
+dnx ef migrations add init -c LogDbContext
+dnx ef migrations add init -c ApplicationDbContext
+*************************rc1-final**********************************

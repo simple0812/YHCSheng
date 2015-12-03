@@ -6,7 +6,6 @@
   "dependencies": {
     "Autofac": "4.0.0-beta8-157",
     "EntityFramework.Commands": "7.0.0-rc1-final",
-    "EntityFramework.SqlServer": "7.0.0-beta8",
     "EntityFramework.Core": "7.0.0-rc1-final",
     "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final",
     "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
@@ -32,7 +31,8 @@
     "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc1-final",
     "Microsoft.Framework.Configuration.EnvironmentVariables": "1.0.0-beta8",
     "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
-    "Microsoft.AspNet.SignalR.SqlServer": "3.0.0-beta5"
+    "Microsoft.AspNet.SignalR.SqlServer": "3.0.0-beta5",
+    "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final"
   },
   "commands": {
     "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:3000",
