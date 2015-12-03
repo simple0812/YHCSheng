@@ -20,9 +20,8 @@ public static class GlobalVariables {
         builder.AddEnvironmentVariables();
 
         GlobalVariables.Configuration = builder.Build();
-        DefaultConnectionString = "server=.;uid=sa;pwd=123;database=YHCSheng;"; 
-        LogConnectionString = "server=.;uid=sa;pwd=123;database=YHCShengLog;"; 
-        //Configuration.Get(@"Data:DefaultConnection:ConnectionString");
+        DefaultConnectionString = Configuration["Data:DefaultConnection:Application"];
+        LogConnectionString = Configuration["Data:DefaultConnection:Log"];  
         ApplicationBasePath = appEnv.ApplicationBasePath;
         EnvironmentName = env.EnvironmentName;
     } 

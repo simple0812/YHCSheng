@@ -4,7 +4,8 @@
   },
   "Data": {
     "DefaultConnection": {
-      "ConnectionString": "server=.;uid=sa;pwd=123;database=YHCSheng;"
+      "Application": "server=.;uid=sa;pwd=123;database=YHCSheng;",
+      "Log": "server=.;uid=sa;pwd=123;database=Log;"
     }
   }
 }
